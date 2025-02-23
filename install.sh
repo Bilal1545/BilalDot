@@ -12,7 +12,7 @@ echo "By Adnan Bilal ACAR"
 echo
 
 echo "Are you sure for installing Bilaldot Dotfiles? (y/n)"
-read -l answer  # Kullanıcıdan input alıyoruz
+read answer  # Kullanıcıdan input alıyoruz
 
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     echo "Installing Required Packages..."
