@@ -3,7 +3,7 @@
 
 An advanced configuration of Hyprland for Arch Linux based distributions. It has Pywal coloring, settings app, welcome app and lot of more...
 
-Inspired by [ML4W Dotfiles](https://github.com/mylinuxforwork/dotfiles/tree/main). If you dont like it you can look [ML4W Dotfiles](https://github.com/mylinuxforwork/dotfiles/tree/main).
+Inspired by [ML4W Dotfiles](https://github.com/mylinuxforwork/dotfiles/tree/main). If you don't like mine, you can look at [this](https://github.com/mylinuxforwork/dotfiles/tree/main).
 
 ## Installation
 Execute this command it install automatically.
