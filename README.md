@@ -12,3 +12,6 @@ bash <(curl -s https://raw.githubusercontent.com/bilal1545/bilaldot/install.sh)
 ```
 
 > IMPORTANT: I cannot guarantee that the BilalDot Dotfiles will work everywhere. You install at your own risk.
+
+## Documentation (Wiki)
+coming soon...
