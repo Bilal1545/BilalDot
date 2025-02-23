@@ -11,9 +11,6 @@ EOF
 echo "By Adnan Bilal ACAR"
 echo
 
-read -p "DO YOU WANT TO START THE INSTALLATION NOW? (Yy/Nn): " answer
-
-if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     echo "Installing Required Packages..."
     #yay -S --noconfirm hyprland-git python nwg-bar nwg-dock-hyprland nwg-panel nwg-menu nwg-drawer nwg-look waybar swww kitty nautilus pywal-git yad woomer wlogout xfce4-taskmanager smile hyprswitch swaync ags hyprsunset rofi-wayland cliphist wl-clipboard
     #pipx install waypaper
@@ -51,6 +48,3 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     cd ../../
     rm -rf ~/wallpapers
     cp -r wallpapers ~/
-else
-    echo "Operation canceled."
-fi
