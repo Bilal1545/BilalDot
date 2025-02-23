@@ -12,12 +12,12 @@ echo "By Adnan Bilal ACAR"
 echo
 
 echo "Are you sure for installing Bilaldot Dotfiles? (y/n)"
-read -r answer  # Kullanıcıdan input alıyoruz
+read -l answer  # Kullanıcıdan input alıyoruz
 
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     echo "Installing Required Packages..."
-    yay -S --noconfirm hyprland-git python nwg-bar nwg-dock-hyprland nwg-panel nwg-menu nwg-drawer nwg-look waybar swww kitty nautilus pywal-git yad woomer wlogout xfce4-taskmanager smile hyprswitch swaync ags hyprsunset rofi-wayland cliphist wl-clipboard
-    pipx install waypaper
+    #yay -S --noconfirm hyprland-git python nwg-bar nwg-dock-hyprland nwg-panel nwg-menu nwg-drawer nwg-look waybar swww kitty nautilus pywal-git yad woomer wlogout xfce4-taskmanager smile hyprswitch swaync ags hyprsunset rofi-wayland cliphist wl-clipboard
+    #pipx install waypaper
 
     echo "Cloning Repository..."
     git clone https://github.com/Bilal1545/BilalDot.git
@@ -49,6 +49,9 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     ./install.sh -d
     cd ../bilaldotwelcome/
     ./install.sh -d
+    cd ../../
+    rm -rf ~/wallpapers
+    cp -r wallpapers ~/
 else
     echo "Operation canceled."
 fi
