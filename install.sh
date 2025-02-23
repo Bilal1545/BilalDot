@@ -11,8 +11,7 @@ EOF
 echo "By Adnan Bilal ACAR"
 echo
 
-echo "Are you sure for installing Bilaldot Dotfiles? (y/n)"
-read answer  # Kullanıcıdan input alıyoruz
+read -p "DO YOU WANT TO START THE INSTALLATION NOW? (Yy/Nn): " answer
 
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     echo "Installing Required Packages..."
