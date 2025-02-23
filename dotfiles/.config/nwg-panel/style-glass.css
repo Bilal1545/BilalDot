@@ -1,0 +1,4 @@
+@import url("../bilaldot/settings/nwg-panel-floating.css");
+@define-color bg-color rgba(100, 100, 100, 0.2);
+@define-color border-color rgba(200, 200, 200, 0.2);
+#panel-bottom {border-width: 1px;}

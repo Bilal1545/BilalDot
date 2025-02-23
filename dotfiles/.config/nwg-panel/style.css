@@ -1,0 +1,5 @@
+@import url("../../.cache/wal/colors-waybar.css");
+@define-color bg-color rgba(16, 16, 16, 0.4);
+@define-color border-color @color3;
+#panel-bottom { border-width: 2px; }
+@import url("../bilaldot/settings/nwg-panel-floating.css");

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=BilalDot Welcome
+Exec=/usr/bin/bilaldotwelcome
+Icon=/usr/share/icons/hicolor/256x256/apps/bilaldotwelcome.png
+Type=Application
+Categories=Settings;Utility;
+Terminal=false

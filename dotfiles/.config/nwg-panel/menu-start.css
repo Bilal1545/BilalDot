@@ -1,0 +1,33 @@
+@import url("../../.cache/wal/colors-waybar.css");
+
+window {
+    background: rgba(16, 16, 16, 0.8);
+	  border-style: solid;
+	  border-width: 2px;
+	  border-color: @color3;
+    color: #ffffff;
+    border-radius: 10px;
+}
+
+list {
+    background: none;
+    border-radius: 15px;
+    color: #eeeeee;
+}
+
+entry {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #eeeeee;
+}
+
+button {
+    background: none;
+    border: none;
+    color: #eeeeee;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #eeeeee;
+}
+

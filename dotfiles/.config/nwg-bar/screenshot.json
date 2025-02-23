@@ -1,0 +1,17 @@
+[
+  {
+    "label": "Region",
+    "exec": "hyprctl dispatch exec ~/.config/bilaldot/scripts/screenshot_selector.sh region",
+    "icon": "/usr/share/nwg-bar/images/region.svg"
+  },
+  {
+    "label": "Fullscreen",
+    "exec": "hyprctl dispatch exec ~/.config/bilaldot/scripts/screenshot_selector.sh full",
+    "icon": "/usr/share/nwg-bar/images/fullscreen.svg"
+  },
+  {
+    "label": "Text",
+    "exec": "hyprctl dispatch exec ~/.config/bilaldot/scripts/screenshot_selector.sh text",
+    "icon": "/usr/share/nwg-bar/images/text.svg"
+  }
+]

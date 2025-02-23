@@ -1,0 +1,12 @@
+[
+  {
+    "label": "HEX",
+    "exec": "hyprctl dispatch exec ~/.config/bilaldot/scripts/hyprpicker_selector.sh hex",
+    "icon": "/usr/share/nwg-bar/images/hex.svg"
+  },
+  {
+    "label": "RGB",
+    "exec": "hyprctl dispatch exec ~/.config/bilaldot/scripts/hyprpicker_selector.sh rgb",
+    "icon": "/usr/share/nwg-bar/images/rgb.svg"
+  }
+]

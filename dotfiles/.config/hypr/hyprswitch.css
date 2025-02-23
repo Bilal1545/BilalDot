@@ -1,0 +1,12 @@
+@import url("../../.cache/wal/colors-waybar.css");
+
+:root {
+    --border-color: @color4;
+    --border-color-active: @color11;
+    --bg-color: @color3;
+    --bg-color-hover: @color4;
+    --index-border-color: @color4;
+    --border-radius: 10px;
+    --border-size: 3px;
+}
+

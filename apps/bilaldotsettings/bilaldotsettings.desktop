@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=BilalDot Settings
+Exec=/usr/bin/bilaldotsettings
+Icon=/usr/share/bilaldot/bilaldot.png
+Type=Application
+Categories=Settings;
+Terminal=false

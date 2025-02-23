@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <object class="AdwStatusPage">
+    <property name="title" translatable="yes">Preferences Dialog</property>
+    <property name="description" translatable="yes">A dialog showing application’s preferences</property>
+    <child>
+      <object class="GtkBox">
+        <property name="spacing">12</property>
+        <property name="halign">3</property>
+        <property name="orientation">1</property>
+        <child>
+          <object class="GtkButton" id="button">
+            <property name="label" translatable="yes">Open</property>
+            <style>
+              <class name="suggested-action"/>
+              <class name="pill"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="AdwPreferencesWindow" id="dialog">
+    <property name="title" translatable="yes">Settings</property>
+    <child>
+      <object class="AdwPreferencesPage" id="applications_page">
+        <property name="title" translatable="yes">Applications</property>
+        <property name="icon-name">application-x-executable</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Waybar</property>
+            <child>
+              <object class="AdwSwitchRow" id="waybar_switch">
+                <property name="title" translatable="yes">Waybar:</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="run_waybar_configure_button">
+                <property name="label" translatable="yes">Waybar Themes</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Sunset</property>
+            <child>
+              <object class="AdwSwitchRow" id="sunset_switch">
+                <property name="title" translatable="yes">Sunset:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Sunset Value</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="sunset_adjustment">
+                    <property name="lower">1000</property>
+                    <property name="upper">20000</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Panel</property>
+            <child>
+              <object class="AdwSwitchRow" id="panel_switch">
+                <property name="title" translatable="yes">Panel:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="panel_glass_switch">
+                <property name="title" translatable="yes">Panel with glass style:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="panel_floating_switch">
+                <property name="title" translatable="yes">Panel floating:</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="run_panel_configure_button">
+                <property name="label" translatable="yes">Configure Panel</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Dock</property>
+            <child>
+              <object class="AdwSwitchRow" id="dock_switch">
+                <property name="title" translatable="yes">Dock:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="dock_glass_switch">
+                <property name="title" translatable="yes">Dock With glass style:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="dock_float_switch">
+                <property name="title" translatable="yes">Dock Floating:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="dock_full_switch">
+                <property name="title" translatable="yes">Dock Fullscreen:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="dock_pos_combo">
+                <property name="title" translatable="yes">Position</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">bottom</item>
+                      <item translatable="yes">top</item>
+                      <item translatable="yes">left</item>
+                      <item translatable="yes">right</item>
+                   </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="dock_icopos_combo">
+                <property name="title" translatable="yes">Icons Position</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">start</item>
+                      <item translatable="yes">center</item>
+                      <item translatable="yes">end</item>
+                   </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="dock_launcher_pos_combo">
+                <property name="title" translatable="yes">Launcher Position</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">start</item>
+                      <item translatable="yes">end</item>
+                   </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Size</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="dock_size_adjustment">
+                    <property name="lower">32</property>
+                    <property name="upper">50</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Margin Left And Right</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="dock_margin_adjustment">
+                    <property name="lower">5</property>
+                    <property name="upper">200</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Default Applications</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label">Terminal:</property>
+                    <property name="halign">start</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="terminal">
+                    <property name="hexpand">true</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label">File Manager:</property>
+                    <property name="halign">start</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="fm">
+                    <property name="hexpand">true</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label">Browser:</property>
+                    <property name="halign">start</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="browser">
+                    <property name="hexpand">true</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="launcher_combo">
+                <property name="title" translatable="yes">Application Launcher</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">rofi</item>
+                      <item translatable="yes">menu</item>
+                      <item translatable="yes">drawer</item>
+                   </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Other</property>
+            <child>
+              <object class="AdwSwitchRow" id="welcome_switch">
+                <property name="title" translatable="yes">Open Welcome App on start:</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="title" translatable="yes">Hyprland</property>
+        <property name="icon-name">emblem-system</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">General</property>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Border Size</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="border_size_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">20</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Border Radius</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="border_radius_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">50</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="no_border_float_switch">
+                <property name="title" translatable="yes">No Border On Floating:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Active Windows Opacity</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="active_opacity_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">10</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Inactive Windows Opacity</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="inactive_opacity_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">10</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Window Gaps In</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="gaps_in_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">50</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Window Gaps Out</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="gaps_out_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">100</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+        <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Blur</property>
+            <child>
+              <object class="AdwSwitchRow" id="blur_switch">
+                <property name="title" translatable="yes">Blur:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="xray_switch">
+                <property name="title" translatable="yes">Xray:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Blur Size</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="blur_size_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">20</property>
+                    <property name="step-increment">1</property>
+                    <property name="value">2</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Blur Passes</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="blur_passes_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">20</property>
+                    <property name="step-increment">1</property>
+                    <property name="value">2</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+         <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Other</property>
+            <child>
+              <object class="AdwComboRow" id="layout_combo">
+                <property name="title" translatable="yes">Layout</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">dwindle</item>
+                      <item translatable="yes">master</item>
+                   </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="run_floating_toggle_button">
+              <property name="label" translatable="yes">Toggle New Windows Floating</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

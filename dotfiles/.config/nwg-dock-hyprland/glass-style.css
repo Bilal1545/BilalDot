@@ -1,0 +1,6 @@
+@import url("../../.cache/wal/colors-waybar.css");
+@define-color bg-color rgba(75, 75, 75, 0.4);
+@define-color border-color rgba(100, 100, 100, 0.4);
+window {border-width: 1px;}
+@import url("source.css");
+
