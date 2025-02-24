@@ -6,7 +6,7 @@ An half-advanced configuration of Hyprland for Arch Linux based distributions. I
 Inspired by [ML4W Dotfiles](https://github.com/mylinuxforwork/dotfiles/tree/main). If you don't like mine, you can look at [this](https://github.com/mylinuxforwork/dotfiles/tree/main).
 
 ## Installation
-Execute this command it install automatically.
+Run this command in Bash, and it will install automatically.
 ```shell
 bash <(curl -s https://raw.githubusercontent.com/bilal1545/bilaldot/install.sh)
 ```
