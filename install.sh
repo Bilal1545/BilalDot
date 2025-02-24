@@ -46,6 +46,7 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     cd ../../assets
     cp dotfiles-logo.png /usr/share/bilaldot/bilaldot.png
     cp dotfiles-welcome-logo.png /usr/share/bilaldot/bilaldotwelcome.png
+    cd ../
     echo "All files copied successfully."
     echo "Installing Applications..."
     cd ./apps/
