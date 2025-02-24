@@ -31,7 +31,7 @@ fi
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
 
 # Copy the executable to /usr/bin
-sudo rm /usr/bin/bilaldotsettings
+sudo rm /usr/bin/bilaldotwelcome
 sudo install -m 755 app.py /usr/bin/bilaldotwelcome
 
 # Copy assets to /usr/share/bilaldotsettings
