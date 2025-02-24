@@ -1,6 +1,7 @@
 #!/bin/bash
 
 clear
+dont_install=false
 cat <<"EOF"
  ____  _ _       _ ____        _     ____        _    __ _ _           
 | __ )(_) | __ _| |  _ \  ___ | |_  |  _ \  ___ | |_ / _(_) | ___  ___ 
@@ -11,12 +12,18 @@ EOF
 echo "By Adnan Bilal ACAR"
 echo
 
+if [[ "$1" == "-d" ]]; then
+  dont_install=true
+fi
+
 read -p "DO YOU WANT TO START THE INSTALLATION NOW? (Yy/Nn): " answer
 
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     echo "Installing Required Packages..."
-    yay -S --noconfirm python nwg-bar nwg-dock-hyprland nwg-panel nwg-menu nwg-drawer nwg-look waybar swww kitty nautilus pywal-git yad woomer wlogout xfce4-taskmanager smile hyprswitch swaync ags hyprsunset rofi-wayland cliphist wl-clipboard
+    if [[ "$dont_install" == "false" ]]; then
+    yay -S --noconfirm hyprland-git python nwg-bar nwg-dock-hyprland nwg-panel nwg-menu nwg-drawer nwg-look waybar swww kitty nautilus pywal-git yad woomer wlogout xfce4-taskmanager smile hyprswitch swaync ags hyprsunset rofi-wayland cliphist wl-clipboard
     pipx install waypaper
+    fi
 
     echo "Cloning Repository..."
     git clone https://github.com/Bilal1545/BilalDot.git
