@@ -49,10 +49,10 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     echo "All files copied successfully."
     echo "Installing Applications..."
     cd ../
-    cd bilaldotsettings/
+    cd bilaldotwelcome/
     ./install.sh -d
     cd ../
-    cd bilaldotwelcome/
+    cd bilaldotsettings/
     ./install.sh -d
     cd ../
     rm -rf ~/wallpapers
