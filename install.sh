@@ -38,12 +38,9 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
 
         # Eğer hedef klasör varsa, sil
         if [ -d "$config_path" ]; then
-            echo "Deleting existing directory: $config_path"
             rm -rf "$config_path"
         fi
 
-        # Klasörü kopyala
-        echo "Copying $folder_name to ~/.config/"
         cp -r "$folder" "$config_path"
     done
     cd ../../assets
@@ -51,7 +48,7 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     cp dotfiles-welcome-logo.png /usr/share/bilaldot/bilaldotwelcome.png
     echo "All files copied successfully."
     echo "Installing Applications..."
-    cd ../apps/
+    cd apps/
     cd bilaldotsettings/
     ./install.sh -d
     cd ../bilaldotwelcome/
