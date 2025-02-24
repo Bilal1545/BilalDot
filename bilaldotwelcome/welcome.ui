@@ -42,7 +42,7 @@
         </child>
         <child>
           <object class="GtkLabel" id="version_text">
-            <property name="label">Version: 1.0</property>
+            <property name="label">Version: 1.0.2</property>
             <property name="halign">center</property>
           </object>
         </child>
