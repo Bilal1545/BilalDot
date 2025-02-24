@@ -48,8 +48,8 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     cp dotfiles-welcome-logo.png /usr/share/bilaldot/bilaldotwelcome.png
     echo "All files copied successfully."
     echo "Installing Applications..."
-    cd apps/
-    cd bilaldotsettings/
+    cd ./apps/
+    cd ./bilaldotsettings/
     ./install.sh -d
     cd ../bilaldotwelcome/
     ./install.sh -d
