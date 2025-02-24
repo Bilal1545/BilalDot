@@ -42,8 +42,7 @@ class BilalDotSettingsApp(Adw.Application):
             self.blur_switch = builder.get_object("blur_switch")
             self.xray_switch = builder.get_object("xray_switch")
             self.panel_switch = builder.get_object("panel_switch")
-            self.panel_floating_switch = builder.get_object("panel_floating_switch")
-            self.panel_glass_switch = builder.get_object("panel_glass_switch")
+            self.panel_theme_combo = builder.get_object("panel_theme_combo")
             self.border_size_adj = builder.get_object("border_size_adjustment")
             self.blur_size_adj = builder.get_object("blur_size_adjustment")
             self.inactive_opacity_adj = builder.get_object("inactive_opacity_adjustment")
@@ -107,8 +106,7 @@ class BilalDotSettingsApp(Adw.Application):
             self.blur_passes_adj.connect("value-changed", self.save_preferences)
             self.panel_switch.connect("notify::active", self.save_preferences)
             self.sunset_switch.connect("notify::active", self.save_preferences)
-            self.panel_glass_switch.connect("notify::active", self.save_preferences)
-            self.panel_floating_switch.connect("notify::active", self.save_preferences)
+            self.panel_theme_combo.connect("notify::selected", self.save_preferences)
             self.blur_switch.connect("notify::active", self.save_preferences)
             self.xray_switch.connect("notify::active", self.save_preferences)
             self.waybar_switch.connect("notify::active", self.save_preferences)
@@ -330,25 +328,16 @@ class BilalDotSettingsApp(Adw.Application):
             except Exception:
                 pass
 
-        panel_floating_file = os.path.join(CONFIG_DIR, "nwg-panel-floating.sh")
-        if os.path.isfile(panel_floating_file):
-            try:
-                with open(panel_floating_file, "r") as f:
-                    panel_state = f.read().strip().lower()
-                if self.panel_floating_switch:
-                    self.panel_floating_switch.set_active(panel_state == "true")
-            except Exception:
-                pass
-
-        panel_glass_file = os.path.join(CONFIG_DIR, "nwg-panel-glass.sh")
-        if os.path.isfile(panel_glass_file):
-            try:
-                with open(panel_glass_file, "r") as f:
-                    panel_glass_state = f.read().strip().lower()
-                if self.panel_glass_switch:
-                    self.panel_glass_switch.set_active(panel_glass_state == "true")
-            except Exception:
-                pass
+        try:
+            with open(os.path.join(CONFIG_DIR, "nwg-theme.sh"), "r") as f:
+                content = f.read().strip()  # Dosyayı oku
+                model = self.nwg_panel_theme_combo.get_model()  # Kombinasyon kutusunun modelini al
+                for i in range(model.get_n_items()):
+                    if model.get_string(i) == content:  # Eşleşen öğeyi bul
+                        self.nwg_panel_theme_combo.set_selected(i)  # Seçili hale getir
+                        break
+        except Exception:
+            pass
 
         blur_file = os.path.join(CONFIG_DIR, "blur.conf")
         if os.path.isfile(blur_file):
@@ -655,19 +644,15 @@ class BilalDotSettingsApp(Adw.Application):
         except Exception:
             pass
         
-        panel_floating_file = os.path.join(CONFIG_DIR, "nwg-panel-floating.sh")
-        try:
-            with open(panel_floating_file, "w") as f:
-                f.write(str(self.panel_floating_switch.get_active()).lower())
-        except Exception:
-            pass
-
-        panel_glass_file = os.path.join(CONFIG_DIR, "nwg-panel-glass.sh")
-        try:
-            with open(panel_glass_file, "w") as f:
-                f.write(str(self.panel_glass_switch.get_active()).lower())
-        except Exception:
-            pass
+        nwg_panel_theme_combo_selected = self.nwg_panel_theme_combo.get_selected()
+        if nwg_panel_theme_combo_selected != -1:
+            model = self.nwg_panel_theme_combo_combo.get_model()
+            selected_nwg_panel_theme = model.get_string(nwg_panel_theme_combo_selected)
+            try:
+                with open(os.path.join(CONFIG_DIR, "nwg-theme.sh"), "w") as f:
+                    f.write(f"{selected_nwg_panel_theme}")
+            except Exception:
+                pass
 
         try:
             with open(BORDER_SIZE_FILE, "w") as f:

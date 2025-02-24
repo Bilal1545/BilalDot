@@ -73,16 +73,18 @@
               </object>
             </child>
             <child>
-              <object class="AdwSwitchRow" id="panel_glass_switch">
-                <property name="title" translatable="yes">Panel with glass style:</property>
+              <object class="AdwComboRow" id="panel_theme_combo">
+                <property name="title" translatable="yes">Panel Theme</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">default</item>
+                      <item translatable="yes">modern</item>
+                   </items>
+                  </object>
+                </property>
               </object>
             </child>
-            <child>
-              <object class="AdwSwitchRow" id="panel_floating_switch">
-                <property name="title" translatable="yes">Panel floating:</property>
-              </object>
-            </child>
-            <child>
               <object class="GtkButton" id="run_panel_configure_button">
                 <property name="label" translatable="yes">Configure Panel</property>
               </object>
