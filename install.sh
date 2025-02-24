@@ -46,17 +46,21 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     cd ../../assets
     cp dotfiles-logo.png /usr/share/bilaldot/bilaldot.png
     cp dotfiles-welcome-logo.png /usr/share/bilaldot/bilaldotwelcome.png
-    cd ../
     echo "All files copied successfully."
     echo "Installing Applications..."
-    cd ./apps/
+    cd ../apps/
+    ls
     cd ./bilaldotsettings/
+    ls
     ./install.sh -d
     cd ../bilaldotwelcome/
+    ls
     ./install.sh -d
     cd ../../
+    ls
     rm -rf ~/wallpapers
     cp -r ./wallpapers ~/
+    ls
 else
     echo "Operation canceled."
 fi
