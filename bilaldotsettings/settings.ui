@@ -85,6 +85,7 @@
                 </property>
               </object>
             </child>
+            <child>
               <object class="GtkButton" id="run_panel_configure_button">
                 <property name="label" translatable="yes">Configure Panel</property>
               </object>

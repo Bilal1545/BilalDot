@@ -330,7 +330,7 @@ class BilalDotSettingsApp(Adw.Application):
 
         try:
             with open(os.path.join(CONFIG_DIR, "nwg-theme.sh"), "r") as f:
-                content = f.read().strip()  # Dosyayı oku
+                content = f.read().strip() 
                 model = self.nwg_panel_theme_combo.get_model()  # Kombinasyon kutusunun modelini al
                 for i in range(model.get_n_items()):
                     if model.get_string(i) == content:  # Eşleşen öğeyi bul
@@ -644,13 +644,13 @@ class BilalDotSettingsApp(Adw.Application):
         except Exception:
             pass
         
-        nwg_panel_theme_combo_selected = self.nwg_panel_theme_combo.get_selected()
-        if nwg_panel_theme_combo_selected != -1:
-            model = self.nwg_panel_theme_combo_combo.get_model()
-            selected_nwg_panel_theme = model.get_string(nwg_panel_theme_combo_selected)
+        panel_theme_combo_selected = self.panel_theme_combo.get_selected()
+        if panel_theme_combo_selected != -1:
+            model = self.panel_theme_combo.get_model()
+            selected_panel_theme = model.get_string(panel_theme_combo_selected)
             try:
                 with open(os.path.join(CONFIG_DIR, "nwg-theme.sh"), "w") as f:
-                    f.write(f"{selected_nwg_panel_theme}")
+                    f.write(f"{selected_panel_theme}")
             except Exception:
                 pass
 
