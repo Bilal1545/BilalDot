@@ -187,54 +187,24 @@
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Default Applications</property>
             <child>
-              <object class="GtkBox">
-                <property name="orientation">horizontal</property>
-                <property name="spacing">10</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="label">Terminal:</property>
-                    <property name="halign">start</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="terminal">
-                    <property name="hexpand">true</property>
-                  </object>
-                </child>
+              <object class="AdwEntryRow" id="terminal">
+                <property name="title">Terminal</property>
               </object>
             </child>
             <child>
               <object class="GtkBox">
                 <property name="orientation">horizontal</property>
                 <property name="spacing">10</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="label">File Manager:</property>
-                    <property name="halign">start</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="fm">
-                    <property name="hexpand">true</property>
-                  </object>
-                </child>
               </object>
             </child>
             <child>
-              <object class="GtkBox">
-                <property name="orientation">horizontal</property>
-                <property name="spacing">10</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="label">Browser:</property>
-                    <property name="halign">start</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="browser">
-                    <property name="hexpand">true</property>
-                  </object>
-                </child>
+              <object class="AdwEntryRow" id="fm">
+                <property name="title">File Manager</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwEntryRow" id="browser">
+                <property name="title">Browser</property>
               </object>
             </child>
             <child>
