@@ -39,6 +39,8 @@ class BilalDotSettingsApp(Adw.Application):
             self.welcome_switch = builder.get_object("welcome_switch")
             self.waybar_switch = builder.get_object("waybar_switch")
             self.sunset_adj = builder.get_object("sunset_adjustment")
+            self.dim_strength_adj = builder.get_object("dim_strength_adjustment")
+            self.dim_duration_adj = builder.get_object("dim_duration_adjustment")
             self.blur_switch = builder.get_object("blur_switch")
             self.xray_switch = builder.get_object("xray_switch")
             self.panel_switch = builder.get_object("panel_switch")
@@ -59,6 +61,7 @@ class BilalDotSettingsApp(Adw.Application):
             self.launcher_combo = builder.get_object("launcher_combo")
             self.no_border_float_switch = builder.get_object("no_border_float_switch")
             self.sunset_switch = builder.get_object("sunset_switch")
+            self.dim_switch = builder.get_object("dim_switch")
             self.terminal = builder.get_object("terminal")
             self.fm = builder.get_object("fm")
             self.browser = builder.get_object("browser")
@@ -108,12 +111,15 @@ class BilalDotSettingsApp(Adw.Application):
             self.blur_passes_adj.connect("value-changed", self.save_preferences)
             self.panel_switch.connect("notify::active", self.save_preferences)
             self.sunset_switch.connect("notify::active", self.save_preferences)
+            self.dim_switch.connect("notify::active", self.save_preferences)
             self.panel_theme_combo.connect("notify::selected", self.save_preferences)
             self.blur_switch.connect("notify::active", self.save_preferences)
             self.xray_switch.connect("notify::active", self.save_preferences)
             self.waybar_switch.connect("notify::active", self.save_preferences)
             self.no_border_float_switch.connect("notify::active", self.save_preferences)
             self.sunset_adj.connect("value-changed", self.save_preferences)
+            self.dim_strength_adj.connect("value-changed", self.save_preferences)
+            self.dim_duration_adj.connect("value-changed", self.save_preferences)
             self.dialog.connect("close-request", self.on_close_request)
             self.dialog.present()
             
@@ -189,6 +195,31 @@ class BilalDotSettingsApp(Adw.Application):
                     self.no_border_float_switch.set_active(no_border_float_switch_state == "windowrulev2 = bordersize 0, floating:1")
             except Exception:
                 pass
+
+        dim_file = os.path.join(CONFIG_DIR, "hyprdim.sh")
+        if os.path.isfile(dim_file):
+            try:
+                with open(dim_file, "r") as f:
+                    dim_state = f.read().strip().lower()
+                if self.dim_switch:
+                    self.dim_switch.set_active(dim_state == "true")
+            except Exception:
+                pass
+        
+        try:
+            with open(os.path.join(CONFIG_DIR, "hyprdim-strength.sh"), "r") as f:
+                dim_strength_value = float(f.read().strip()) * 10
+                self.dim_strength_adj.set_value(round(dim_strength_value))
+        except Exception as e:
+            pass
+
+        try:
+            with open(os.path.join(CONFIG_DIR, "hyprdim-duration.sh"), "r") as f:
+                dim_duration_value = float(f.read().strip())
+
+                self.dim_duration_adj.set_value(round(dim_duration_value))
+        except Exception as e:
+            pass
 
         sunset_file = os.path.join(CONFIG_DIR, "sunset.sh")
         if os.path.isfile(sunset_file):
@@ -518,6 +549,20 @@ class BilalDotSettingsApp(Adw.Application):
         try:
             with open(welcome_file, "w") as f:
                 f.write(str(self.welcome_switch.get_active()).lower())
+        except Exception:
+            pass
+
+        dim_file = os.path.join(CONFIG_DIR, "hyprdim.sh")
+        try:
+            with open(dim_file, "w") as f:
+                f.write(str(self.dim_switch.get_active()).lower())
+        except Exception:
+            pass
+            
+
+        try:
+            with open(os.path.join(CONFIG_DIR, "hyprdim-duraiton.sh"), "w") as f:
+                f.write(f"{int(self.dim_adj.get_value())}")
         except Exception:
             pass
 
