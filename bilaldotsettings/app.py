@@ -54,6 +54,7 @@ class BilalDotSettingsApp(Adw.Application):
             self.config_button = builder.get_object("run_panel_configure_button")
             self.config_waybar_button = builder.get_object("run_waybar_configure_button")
             self.float_toggle_button = builder.get_object("run_floating_toggle_button")
+            self.displays_button = builder.get_object("run_displays_button")
             self.layout_combo = builder.get_object("layout_combo")
             self.launcher_combo = builder.get_object("launcher_combo")
             self.no_border_float_switch = builder.get_object("no_border_float_switch")
@@ -91,9 +92,10 @@ class BilalDotSettingsApp(Adw.Application):
             self.terminal.connect("changed", self.save_preferences)
             self.fm.connect("changed", self.save_preferences)
             self.browser.connect("changed", self.save_preferences)
-            self.config_button.connect("clicked", self.execute_panel_config)
-            self.config_waybar_button.connect("clicked", self.execute_waybar_config)
-            self.float_toggle_button.connect("clicked", self.execute_float_toggle)
+            self.config_button.connect("activated", self.execute_panel_config)
+            self.config_waybar_button.connect("activated", self.execute_waybar_config)
+            self.float_toggle_button.connect("activated", self.execute_float_toggle)
+            self.displays_button.connect("activated", self.execute_displays)
             self.layout_combo.connect("notify::selected", self.save_preferences)
             self.launcher_combo.connect("notify::selected", self.save_preferences)
             self.border_size_adj.connect("value-changed", self.save_preferences)
@@ -691,20 +693,24 @@ class BilalDotSettingsApp(Adw.Application):
             pass
 
     def execute_panel_config(self, widget):
-        """'Configure Panel' butonuna tıklandığında ilgili komutu çalıştırır."""
         try:
             subprocess.run(["nwg-panel-config"], check=True)
         except subprocess.CalledProcessError:
             pass
 
+    def execute_displays(self, widget):
+        try:
+            subprocess.run(["nwg-displays"], check=True)
+        except subprocess.CalledProcessError:
+            pass
+
     def execute_waybar_config(self, widget):
-        """'Configure Waybar' butonuna tıklandığında ilgili komutu çalıştırır."""
         try:
             subprocess.run([os.path.expanduser("~/.config/waybar/themeswitcher.sh")], check=True)
         except subprocess.CalledProcessError:
             pass
     def execute_float_toggle(self, widget):
-        """'Configure Waybar' butonuna tıklandığında ilgili komutu çalıştırır."""
+
         try:
             subprocess.run([os.path.expanduser("~/.config/bilaldot/scripts/allfloat_toggle.sh")], check=True)
         except subprocess.CalledProcessError:

@@ -30,14 +30,15 @@
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Waybar</property>
+            <property name="description" translatable="yes">A bar for your desktop.</property>
             <child>
               <object class="AdwSwitchRow" id="waybar_switch">
                 <property name="title" translatable="yes">Waybar:</property>
               </object>
             </child>
             <child>
-              <object class="GtkButton" id="run_waybar_configure_button">
-                <property name="label" translatable="yes">Waybar Themes</property>
+              <object class="AdwButtonRow" id="run_waybar_configure_button">
+                <property name="title" translatable="yes">Waybar Themes</property>
               </object>
             </child>
           </object>
@@ -45,6 +46,7 @@
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Sunset</property>
+            <property name="description" translatable="yes">Sunset for your screen.</property>
             <child>
               <object class="AdwSwitchRow" id="sunset_switch">
                 <property name="title" translatable="yes">Sunset:</property>
@@ -66,7 +68,43 @@
         </child>
         <child>
           <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Dim</property>
+            <property name="description" translatable="yes">You can dim your inactive windows with here.</property>
+            <child>
+              <object class="AdwSwitchRow" id="dim_switch">
+                <property name="title" translatable="yes">Dim:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Dim Strength</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="dim_strength_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">10</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Dim Duration</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="dim_duration_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">100000</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Panel</property>
+            <property name="description" translatable="yes">A panel (taskbar) for your desktop.</property>
             <child>
               <object class="AdwSwitchRow" id="panel_switch">
                 <property name="title" translatable="yes">Panel:</property>
@@ -86,8 +124,8 @@
               </object>
             </child>
             <child>
-              <object class="GtkButton" id="run_panel_configure_button">
-                <property name="label" translatable="yes">Configure Panel</property>
+              <object class="AdwButtonRow" id="run_panel_configure_button">
+                <property name="title" translatable="yes">Configure Panel</property>
               </object>
             </child>
           </object>
@@ -95,6 +133,7 @@
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Dock</property>
+            <property name="description" translatable="yes">A dock for your desktop.</property>
             <child>
               <object class="AdwSwitchRow" id="dock_switch">
                 <property name="title" translatable="yes">Dock:</property>
@@ -185,47 +224,8 @@
         </child>
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Default Applications</property>
-            <child>
-              <object class="AdwEntryRow" id="terminal">
-                <property name="title">Terminal</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="orientation">horizontal</property>
-                <property name="spacing">10</property>
-              </object>
-            </child>
-            <child>
-              <object class="AdwEntryRow" id="fm">
-                <property name="title">File Manager</property>
-              </object>
-            </child>
-            <child>
-              <object class="AdwEntryRow" id="browser">
-                <property name="title">Browser</property>
-              </object>
-            </child>
-            <child>
-              <object class="AdwComboRow" id="launcher_combo">
-                <property name="title" translatable="yes">Application Launcher</property>
-                <property name="model">
-                  <object class="GtkStringList">
-                    <items>
-                      <item translatable="yes">rofi</item>
-                      <item translatable="yes">menu</item>
-                      <item translatable="yes">drawer</item>
-                   </items>
-                  </object>
-                </property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Other</property>
+            <property name="description" translatable="yes">Other settings for applications.</property>
             <child>
               <object class="AdwSwitchRow" id="welcome_switch">
                 <property name="title" translatable="yes">Open Welcome App on start:</property>
@@ -324,6 +324,7 @@
         <child>
         <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Blur</property>
+            <property name="description" translatable="yes">Blur for your windows.</property>
             <child>
               <object class="AdwSwitchRow" id="blur_switch">
                 <property name="title" translatable="yes">Blur:</property>
@@ -365,6 +366,7 @@
         <child>
          <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Other</property>
+            <property name="description" translatable="yes">Other settings for Hyprland.</property>
             <child>
               <object class="AdwComboRow" id="layout_combo">
                 <property name="title" translatable="yes">Layout</property>
@@ -379,8 +381,66 @@
               </object>
             </child>
             <child>
-              <object class="GtkButton" id="run_floating_toggle_button">
-              <property name="label" translatable="yes">Toggle New Windows Floating</property>
+              <object class="AdwButtonRow" id="run_floating_toggle_button">
+              <property name="title" translatable="yes">Toggle New Windows Floating</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="title" translatable="yes">System</property>
+        <property name="icon-name">applications-system</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Default Applications</property>
+            <property name="description" translatable="yes">Default apps for scripts.</property>
+            <child>
+              <object class="AdwEntryRow" id="terminal">
+                <property name="title">Terminal</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwEntryRow" id="fm">
+                <property name="title">File Manager</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwEntryRow" id="browser">
+                <property name="title">Browser</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="launcher_combo">
+                <property name="title" translatable="yes">Application Launcher</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">rofi</item>
+                      <item translatable="yes">menu</item>
+                      <item translatable="yes">drawer</item>
+                   </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Other</property>
+            <property name="description" translatable="yes">Other settings for system.</property>
+            <child>
+              <object class="AdwButtonRow" id="run_displays_button">
+              <property name="title" translatable="yes">Monitor Settings</property>
               </object>
             </child>
           </object>

@@ -44,7 +44,3 @@ sudo rm /usr/share/applications/bilaldotsettings.desktop
 
 sudo cp bilaldotsettings.desktop /usr/share/applications/
 fi
-if [[ "$dont_ask" == "false" ]]; then
-echo "Installation Complete!"
-fi
-
