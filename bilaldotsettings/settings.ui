@@ -439,6 +439,11 @@
             <property name="title" translatable="yes">Other</property>
             <property name="description" translatable="yes">Other settings for system.</property>
             <child>
+              <object class="AdwSwitchRow" id="light_theme_switch">
+                <property name="title" translatable="yes">Use Light Theme:</property>
+              </object>
+            </child>
+            <child>
               <object class="AdwButtonRow" id="run_displays_button">
               <property name="title" translatable="yes">Monitor Settings</property>
               </object>

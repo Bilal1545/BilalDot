@@ -44,6 +44,7 @@ class BilalDotSettingsApp(Adw.Application):
             self.blur_switch = builder.get_object("blur_switch")
             self.xray_switch = builder.get_object("xray_switch")
             self.panel_switch = builder.get_object("panel_switch")
+            self.light_switch = builder.get_object("light_theme_switch")
             self.panel_theme_combo = builder.get_object("panel_theme_combo")
             self.border_size_adj = builder.get_object("border_size_adjustment")
             self.blur_size_adj = builder.get_object("blur_size_adjustment")
@@ -110,6 +111,7 @@ class BilalDotSettingsApp(Adw.Application):
             self.blur_size_adj.connect("value-changed", self.save_preferences)
             self.blur_passes_adj.connect("value-changed", self.save_preferences)
             self.panel_switch.connect("notify::active", self.save_preferences)
+            self.light_switch.connect("notify::active", self.save_preferences)
             self.sunset_switch.connect("notify::active", self.save_preferences)
             self.dim_switch.connect("notify::active", self.save_preferences)
             self.panel_theme_combo.connect("notify::selected", self.save_preferences)
@@ -131,6 +133,21 @@ class BilalDotSettingsApp(Adw.Application):
 
     def load_preferences(self):
         """Ayar dosyalarından değerleri okuyup ilgili UI öğelerine uygular."""
+
+        try:
+            color_scheme = subprocess.check_output(
+                ["gsettings", "get", "org.gnome.desktop.interface", "color-scheme"],
+                universal_newlines=True
+            ).strip()
+            
+            # Eğer renk şeması 'prefer-light' ise, switch'i aktif yap
+            if color_scheme == "'prefer-light'":
+                self.light_switch.set_active(True)
+            else:
+                self.light_switch.set_active(False)
+
+        except subprocess.CalledProcessError:
+            print("Renk şeması alınamadı.")
 
         terminal_file = os.path.join(CONFIG_DIR, "terminal.sh")
         try:
@@ -566,6 +583,12 @@ class BilalDotSettingsApp(Adw.Application):
         except Exception:
             pass
 
+        if self.light_switch.get_active() == True:
+            os.system("gsettings set org.gnome.desktop.interface color-scheme 'prefer-light' && gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'")
+
+        if self.light_switch.get_active() == False:
+            os.system("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' && gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'")
+
         sunset_file = os.path.join(CONFIG_DIR, "sunset.sh")
         try:
             with open(sunset_file, "w") as f:
@@ -754,8 +777,8 @@ class BilalDotSettingsApp(Adw.Application):
             subprocess.run([os.path.expanduser("~/.config/waybar/themeswitcher.sh")], check=True)
         except subprocess.CalledProcessError:
             pass
-    def execute_float_toggle(self, widget):
 
+    def execute_float_toggle(self, widget):
         try:
             subprocess.run([os.path.expanduser("~/.config/bilaldot/scripts/allfloat_toggle.sh")], check=True)
         except subprocess.CalledProcessError:
