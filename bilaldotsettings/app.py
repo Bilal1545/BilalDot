@@ -34,18 +34,33 @@ class BilalDotSettingsApp(Adw.Application):
 
             builder.add_from_file(ui_path)
 
-            # UI öğelerini al
             self.dialog = builder.get_object("dialog")
-            self.welcome_switch = builder.get_object("welcome_switch")
-            self.waybar_switch = builder.get_object("waybar_switch")
-            self.sunset_adj = builder.get_object("sunset_adjustment")
-            self.dim_strength_adj = builder.get_object("dim_strength_adjustment")
-            self.dim_duration_adj = builder.get_object("dim_duration_adjustment")
+
+            #Combos
+            self.panel_theme_combo = builder.get_object("panel_theme_combo")
+            self.layout_combo = builder.get_object("layout_combo")
+            self.launcher_combo = builder.get_object("launcher_combo")
+            self.volume_combo = builder.get_object("volume_combo")
+            #Buttons
+            self.config_button = builder.get_object("run_panel_configure_button")
+            self.config_waybar_button = builder.get_object("run_waybar_configure_button")
+            self.float_toggle_button = builder.get_object("run_floating_toggle_button")
+            self.displays_button = builder.get_object("run_displays_button")
+            #Inputs
+            self.terminal = builder.get_object("terminal")
+            self.fm = builder.get_object("fm")
+            self.browser = builder.get_object("browser")
+            #Switch
             self.blur_switch = builder.get_object("blur_switch")
             self.xray_switch = builder.get_object("xray_switch")
             self.panel_switch = builder.get_object("panel_switch")
             self.light_switch = builder.get_object("light_theme_switch")
-            self.panel_theme_combo = builder.get_object("panel_theme_combo")
+            self.no_border_float_switch = builder.get_object("no_border_float_switch")
+            self.sunset_switch = builder.get_object("sunset_switch")
+            self.dim_switch = builder.get_object("dim_switch")
+            self.welcome_switch = builder.get_object("welcome_switch")
+            self.waybar_switch = builder.get_object("waybar_switch")
+            #Adjustments
             self.border_size_adj = builder.get_object("border_size_adjustment")
             self.blur_size_adj = builder.get_object("blur_size_adjustment")
             self.inactive_opacity_adj = builder.get_object("inactive_opacity_adjustment")
@@ -54,19 +69,9 @@ class BilalDotSettingsApp(Adw.Application):
             self.border_radius_adj = builder.get_object("border_radius_adjustment")
             self.gaps_in_adj = builder.get_object("gaps_in_adjustment")
             self.gaps_out_adj = builder.get_object("gaps_out_adjustment")
-            self.config_button = builder.get_object("run_panel_configure_button")
-            self.config_waybar_button = builder.get_object("run_waybar_configure_button")
-            self.float_toggle_button = builder.get_object("run_floating_toggle_button")
-            self.displays_button = builder.get_object("run_displays_button")
-            self.layout_combo = builder.get_object("layout_combo")
-            self.launcher_combo = builder.get_object("launcher_combo")
-            self.no_border_float_switch = builder.get_object("no_border_float_switch")
-            self.sunset_switch = builder.get_object("sunset_switch")
-            self.dim_switch = builder.get_object("dim_switch")
-            self.terminal = builder.get_object("terminal")
-            self.fm = builder.get_object("fm")
-            self.browser = builder.get_object("browser")
-
+            self.sunset_adj = builder.get_object("sunset_adjustment")
+            self.dim_strength_adj = builder.get_object("dim_strength_adjustment")
+            self.dim_duration_adj = builder.get_object("dim_duration_adjustment")
             # DOCK
             self.dock_switch = builder.get_object("dock_switch")
             self.dock_glass_switch = builder.get_object("dock_glass_switch")
@@ -81,7 +86,6 @@ class BilalDotSettingsApp(Adw.Application):
             self.load_preferences()
 
             # DOCK
-            
             self.dock_switch.connect("notify::active", self.save_preferences)
             self.dock_glass_switch.connect("notify::active", self.save_preferences)
             self.dock_float_switch.connect("notify::active", self.save_preferences)
@@ -91,17 +95,31 @@ class BilalDotSettingsApp(Adw.Application):
             self.dock_launcher_pos_combo.connect("notify::selected", self.save_preferences)
             self.dock_size_adj.connect("value-changed", self.save_preferences)
             self.dock_margin_adj.connect("value-changed", self.save_preferences)
-
+            #Switch
             self.welcome_switch.connect("notify::active", self.save_preferences)
+            self.blur_switch.connect("notify::active", self.save_preferences)
+            self.xray_switch.connect("notify::active", self.save_preferences)
+            self.waybar_switch.connect("notify::active", self.save_preferences)
+            self.no_border_float_switch.connect("notify::active", self.save_preferences)
+            self.panel_switch.connect("notify::active", self.save_preferences)
+            self.light_switch.connect("notify::active", self.save_preferences)
+            self.sunset_switch.connect("notify::active", self.save_preferences)
+            self.dim_switch.connect("notify::active", self.save_preferences)
+            #Inputs
             self.terminal.connect("changed", self.save_preferences)
             self.fm.connect("changed", self.save_preferences)
             self.browser.connect("changed", self.save_preferences)
+            # Buttons
             self.config_button.connect("activated", self.execute_panel_config)
             self.config_waybar_button.connect("activated", self.execute_waybar_config)
             self.float_toggle_button.connect("activated", self.execute_float_toggle)
             self.displays_button.connect("activated", self.execute_displays)
+            #Combos
+            self.panel_theme_combo.connect("notify::selected", self.save_preferences)
             self.layout_combo.connect("notify::selected", self.save_preferences)
             self.launcher_combo.connect("notify::selected", self.save_preferences)
+            self.volume_combo.connect("notify::selected", self.save_preferences)
+            # Adjustments
             self.border_size_adj.connect("value-changed", self.save_preferences)
             self.gaps_in_adj.connect("value-changed", self.save_preferences)
             self.gaps_out_adj.connect("value-changed", self.save_preferences)
@@ -110,18 +128,10 @@ class BilalDotSettingsApp(Adw.Application):
             self.border_radius_adj.connect("value-changed", self.save_preferences)
             self.blur_size_adj.connect("value-changed", self.save_preferences)
             self.blur_passes_adj.connect("value-changed", self.save_preferences)
-            self.panel_switch.connect("notify::active", self.save_preferences)
-            self.light_switch.connect("notify::active", self.save_preferences)
-            self.sunset_switch.connect("notify::active", self.save_preferences)
-            self.dim_switch.connect("notify::active", self.save_preferences)
-            self.panel_theme_combo.connect("notify::selected", self.save_preferences)
-            self.blur_switch.connect("notify::active", self.save_preferences)
-            self.xray_switch.connect("notify::active", self.save_preferences)
-            self.waybar_switch.connect("notify::active", self.save_preferences)
-            self.no_border_float_switch.connect("notify::active", self.save_preferences)
             self.sunset_adj.connect("value-changed", self.save_preferences)
             self.dim_strength_adj.connect("value-changed", self.save_preferences)
             self.dim_duration_adj.connect("value-changed", self.save_preferences)
+
             self.dialog.connect("close-request", self.on_close_request)
             self.dialog.present()
             
@@ -198,6 +208,17 @@ class BilalDotSettingsApp(Adw.Application):
                 for i in range(model.get_n_items()):
                     if model.get_string(i) == content:  # Eşleşen öğeyi bul
                         self.launcher_combo.set_selected(i)  # Seçili hale getir
+                        break
+        except Exception:
+            pass
+
+        try:
+            with open(os.path.join(CONFIG_DIR, "volume-notification-theme.sh"), "r") as f:
+                content = f.read().strip()  # Dosyayı oku
+                model = self.volume_combo.get_model()  # Kombinasyon kutusunun modelini al
+                for i in range(model.get_n_items()):
+                    if model.get_string(i) == content:  # Eşleşen öğeyi bul
+                        self.volume_combo.set_selected(i)  # Seçili hale getir
                         break
         except Exception:
             pass
@@ -552,6 +573,16 @@ class BilalDotSettingsApp(Adw.Application):
             try:
                 with open(os.path.join(CONFIG_DIR, "launcher.sh"), "w") as f:
                     f.write(f"{selected_launcher}")
+            except Exception:
+                pass
+
+        volume_selected = self.volume_combo.get_selected()
+        if volume_selected != -1:
+            model = self.volume_combo.get_model()
+            selected_volume = model.get_string(volume_selected)
+            try:
+                with open(os.path.join(CONFIG_DIR, "volume-notification-theme.sh"), "w") as f:
+                    f.write(f"{selected_volume}")
             except Exception:
                 pass
 

@@ -24,9 +24,9 @@
   <object class="AdwPreferencesWindow" id="dialog">
     <property name="title" translatable="yes">Settings</property>
     <child>
-      <object class="AdwPreferencesPage" id="applications_page">
-        <property name="title" translatable="yes">Applications</property>
-        <property name="icon-name">application-x-executable</property>
+      <object class="AdwPreferencesPage" id="statusbar_page">
+        <property name="title" translatable="yes">Status Bar</property>
+        <property name="icon-name">preferences-other-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Waybar</property>
@@ -36,6 +36,7 @@
                 <property name="title" translatable="yes">Waybar:</property>
               </object>
             </child>
+            
             <child>
               <object class="AdwButtonRow" id="run_waybar_configure_button">
                 <property name="title" translatable="yes">Waybar Themes</property>
@@ -43,64 +44,12 @@
             </child>
           </object>
         </child>
-        <child>
-          <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Sunset</property>
-            <property name="description" translatable="yes">Sunset for your screen.</property>
-            <child>
-              <object class="AdwSwitchRow" id="sunset_switch">
-                <property name="title" translatable="yes">Sunset:</property>
-              </object>
-            </child>
-            <child>
-              <object class="AdwSpinRow">
-                <property name="title" translatable="yes">Sunset Value</property>
-                <property name="adjustment">
-                  <object class="GtkAdjustment" id="sunset_adjustment">
-                    <property name="lower">1000</property>
-                    <property name="upper">20000</property>
-                    <property name="step-increment">1</property>
-                  </object>
-                </property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Dim</property>
-            <property name="description" translatable="yes">You can dim your inactive windows with here.</property>
-            <child>
-              <object class="AdwSwitchRow" id="dim_switch">
-                <property name="title" translatable="yes">Dim:</property>
-              </object>
-            </child>
-            <child>
-              <object class="AdwSpinRow">
-                <property name="title" translatable="yes">Dim Strength</property>
-                <property name="adjustment">
-                  <object class="GtkAdjustment" id="dim_strength_adjustment">
-                    <property name="lower">0</property>
-                    <property name="upper">10</property>
-                    <property name="step-increment">1</property>
-                  </object>
-                </property>
-              </object>
-            </child>
-            <child>
-              <object class="AdwSpinRow">
-                <property name="title" translatable="yes">Dim Duration</property>
-                <property name="adjustment">
-                  <object class="GtkAdjustment" id="dim_duration_adjustment">
-                    <property name="lower">0</property>
-                    <property name="upper">100000</property>
-                    <property name="step-increment">1</property>
-                  </object>
-                </property>
-              </object>
-            </child>
-          </object>
-        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesPage" id="appearance_page">
+        <property name="title" translatable="yes">Appearance</property>
+        <property name="icon-name">application-x-executable-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Panel</property>
@@ -226,6 +175,24 @@
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Other</property>
             <property name="description" translatable="yes">Other settings for applications.</property>
+            <child>
+              <object class="AdwSwitchRow" id="light_theme_switch">
+                <property name="title" translatable="yes">Use Light Theme:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="volume_combo">
+                <property name="title" translatable="yes">Select Theme for Volume Notifications</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">default</item>
+                      <item translatable="yes">apple</item>
+                   </items>
+                  </object>
+                </property>
+              </object>
+            </child>
             <child>
               <object class="AdwSwitchRow" id="welcome_switch">
                 <property name="title" translatable="yes">Open Welcome App on start:</property>
@@ -364,6 +331,64 @@
           </object>
         </child>
         <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Sunset</property>
+            <property name="description" translatable="yes">Sunset for your screen.</property>
+            <child>
+              <object class="AdwSwitchRow" id="sunset_switch">
+                <property name="title" translatable="yes">Sunset:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Sunset Value</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="sunset_adjustment">
+                    <property name="lower">1000</property>
+                    <property name="upper">20000</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Dim</property>
+            <property name="description" translatable="yes">You can dim your inactive windows with here.</property>
+            <child>
+              <object class="AdwSwitchRow" id="dim_switch">
+                <property name="title" translatable="yes">Dim:</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Dim Strength</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="dim_strength_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">10</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Dim Duration</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="dim_duration_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">100000</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
          <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Other</property>
             <property name="description" translatable="yes">Other settings for Hyprland.</property>
@@ -392,7 +417,7 @@
     <child>
       <object class="AdwPreferencesPage">
         <property name="title" translatable="yes">System</property>
-        <property name="icon-name">applications-system</property>
+        <property name="icon-name">preferences-system</property>
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Default Applications</property>
@@ -438,11 +463,6 @@
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Other</property>
             <property name="description" translatable="yes">Other settings for system.</property>
-            <child>
-              <object class="AdwSwitchRow" id="light_theme_switch">
-                <property name="title" translatable="yes">Use Light Theme:</property>
-              </object>
-            </child>
             <child>
               <object class="AdwButtonRow" id="run_displays_button">
               <property name="title" translatable="yes">Monitor Settings</property>
