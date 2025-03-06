@@ -36,7 +36,11 @@
                 <property name="title" translatable="yes">Waybar:</property>
               </object>
             </child>
-            
+            <child>
+              <object class="AdwSwitchRow" id="waybar_apps_switch">
+                <property name="title" translatable="yes">Launcher Module:</property>
+              </object>
+            </child>
             <child>
               <object class="AdwButtonRow" id="run_waybar_configure_button">
                 <property name="title" translatable="yes">Waybar Themes</property>

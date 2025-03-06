@@ -592,7 +592,7 @@ class BilalDotSettingsApp(Adw.Application):
                 f.write(str(self.waybar_switch.get_active()).lower())
         except Exception:
             pass
-            
+
         welcome_file = os.path.join(CONFIG_DIR, "welcome.sh")
         try:
             with open(welcome_file, "w") as f:
