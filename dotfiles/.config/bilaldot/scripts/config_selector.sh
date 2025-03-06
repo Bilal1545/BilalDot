@@ -7,7 +7,7 @@ SELECTED_FILE=$(ls "$CONFIG_DIR" | rofi -dmenu -replace -i \
     -no-show-icons -width 30 -p "Select Config File to Open:")
 
 if [ -n "$SELECTED_FILE" ]; then
-    ~/.config/bilaldot/scripts/terminal.sh -e micro "$CONFIG_DIR/$SELECTED_FILE"
+    echo $(cat ~/.config/bilaldot/settings/terminal.sh) -e micro "$CONFIG_DIR/$SELECTED_FILE" | bash
 else
     notify-send "Config Selector" "No valid file selected. Exiting."
 fi

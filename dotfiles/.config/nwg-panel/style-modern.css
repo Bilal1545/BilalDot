@@ -1,28 +1,18 @@
+@import url("../../.cache/wal/colors-waybar.css");
+
 button {
     margin: 2px
 }
 
-/* SwayTaskBar and SwayWorkspaces use custom widgets, that need this and the next name
-   to highlight currently focused task / workspace. */
-#task-box {
-    padding-left: 4px;
-    padding-right: 4px;
-    border-radius: 10px;
-}
-
-#task-box:hover {
-    padding-left: 4px;
-    padding-right: 4px;
-    border-radius: 10px;
-    border: 10px;
-    border-color: #ffffff;
-    outline: 0;
-}
-
 #task-box-focused {
+    background-color: rgba (255, 255, 255, 0.12);
     padding-left: 4px;
     padding-right: 4px;
     border-radius: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px; 
 }
 
 
@@ -42,11 +32,9 @@ button {
 
 /* Bottom panel in sample config uses this name */
 #panel-bottom {
-    background: @bg-color;
-	  border-style: solid;
-	  border-color: @border-color;
+    background: rgb(18, 18, 18);
     color: #eeeeee;
-    border-radius: 10px;
+    border: none;
 }
 
 /* Controls window in sample config uses this name */
@@ -125,5 +113,8 @@ button {
 #dotfilesbtn {
   background: transparent;
   border: 0;
+  box-shadow: none; /* Gerekiyorsa kutu gölgesini kaldır */
+  -gtk-icon-shadow: none;
 }
+
 

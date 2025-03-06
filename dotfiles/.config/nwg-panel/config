@@ -1,7 +1,7 @@
 [
   {
     "name": "panel-bottom",
-    "output": "",
+    "output": "All",
     "layer": "top",
     "position": "bottom",
     "controls": "off",
@@ -11,7 +11,7 @@
     "margin-bottom": 5,
     "padding-horizontal": 0,
     "padding-vertical": 1,
-    "spacing": 0,
+    "spacing": 2,
     "items-padding": 0,
     "icons": "",
     "css-name": "panel-bottom",
@@ -254,6 +254,15 @@
       "terminal": "kitty",
       "run-through-compositor": true,
       "hover-opens-submenu": false
+    },
+    "button-launcher\u00fc": {
+      "command": " ~/.config/bilaldot/scripts/launcher.sh -show drun",
+      "icon": "/usr/share/pixmaps/archlinux-logo.svg",
+      "label": "",
+      "label-position": "right",
+      "tooltip": "",
+      "css-name": "launcherbtn",
+      "icon-size": 23
     }
   }
 ]

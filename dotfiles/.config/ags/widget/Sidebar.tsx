@@ -6,6 +6,7 @@ import { subprocess, exec, execAsync } from "astal/process"
 import { Astal, Gtk, Gdk } from "astal/gtk3"
 import Brightness from "./Brightness"
 
+
 function BrightnessSlider() {
     const brightness = Brightness.get_default()
 
@@ -102,9 +103,14 @@ function powerexit() {
     execAsync("hyprctl dispatch exec $HOME/.config/bilaldot/scripts/power.sh shutdown")
     App.get_window("sidebar")!.hide()
 }
+async function getGtkTheme() {
+    const result = await execAsync("gsettings get org.gnome.desktop.interface color-scheme");
+    return result.trim() === "'prefer-dark'" ? "dark" : "light";
+}
+getGtkTheme().then(theme => theme);
 
 export default function Sidebar() {
-
+    
     const anchor = Astal.WindowAnchor.TOP
         | Astal.WindowAnchor.RIGHT
 

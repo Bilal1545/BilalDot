@@ -10,13 +10,11 @@
     "margin-bottom": 0,
     "margin-right": 10,
     
-    
-
-    "spacing": 5, // Gaps between modules (4px)
-
     "modules-left": [
         "custom/rofi",
     ],
+    "spacing": 5, // Gaps between modules (4px)
+
     "modules-center": [
         "hyprland/workspaces",
     ],
@@ -25,6 +23,7 @@
         //"custom/screenshot_t",
         "tray",
         "custom/sidebar",
+        "power-profiles-daemon",
         "custom/weather",
         "clock#date",
         "custom/notifications",
@@ -43,7 +42,19 @@
         "format": " |",
         "tooltip": false
     },
-    
+
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
+
 
     "custom/rofi": {
         "format": "APPS",
