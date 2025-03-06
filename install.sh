@@ -54,7 +54,6 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     cd ../
     cd bilaldotsettings/
     ./install.sh -d
-    cd ../
 else
     echo "Operation canceled."
 fi
