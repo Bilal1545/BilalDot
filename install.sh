@@ -55,8 +55,6 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     cd bilaldotsettings/
     ./install.sh -d
     cd ../
-    rm -rf ~/wallpapers
-    cp -r ./wallpapers ~/
 else
     echo "Operation canceled."
 fi
