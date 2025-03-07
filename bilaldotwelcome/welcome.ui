@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <object class="AdwStatusPage">
-  </object>
-  <object class="AdwPreferencesWindow" id="dialog">
+  <object class="AdwWindow" id="window">
+    <property name="default-width">800</property>
+    <property name="default-height">600</property>
     <property name="title" translatable="yes">Welcome</property>
-    <child>
-      <object class="AdwHeaderBar" id="header">
-        <child type="start">
-          <object class="GtkMenuButton" id="settings_button">
-            <property name="icon-name">open-menu-symbolic</property>
+    <property name="content">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
           </object>
         </child>
-        <child type="end">
-          <object class="GtkSwitch" id="toggle_switch"/>
-        </child>
-      </object>
-    </child>
-    <child>
+        <child>
       <object class="GtkBox" id="main_box">
         <property name="orientation">vertical</property>
         <property name="spacing">20</property>
@@ -86,6 +80,7 @@
         </child>
       </object>
     </child>
+      </object>
+    </property>
   </object>
 </interface>
-

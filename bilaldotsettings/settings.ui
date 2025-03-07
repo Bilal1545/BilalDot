@@ -1,32 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <object class="AdwStatusPage">
-    <property name="title" translatable="yes">Preferences Dialog</property>
-    <property name="description" translatable="yes">A dialog showing application’s preferences</property>
-    <child>
-      <object class="GtkBox">
-        <property name="spacing">12</property>
-        <property name="halign">3</property>
-        <property name="orientation">1</property>
-        <child>
-          <object class="GtkButton" id="button">
-            <property name="label" translatable="yes">Open</property>
-            <style>
-              <class name="suggested-action"/>
-              <class name="pill"/>
-            </style>
-          </object>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="AdwPreferencesWindow" id="dialog">
     <property name="title" translatable="yes">Settings</property>
     <child>
-      <object class="AdwPreferencesPage" id="statusbar_page">
-        <property name="title" translatable="yes">Status Bar</property>
-        <property name="icon-name">preferences-other-symbolic</property>
+      <object class="AdwPreferencesPage" id="appearance_page">
+        <property name="title" translatable="yes">Appearance</property>
+        <property name="icon-name">application-x-executable-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Waybar</property>
@@ -37,23 +17,12 @@
               </object>
             </child>
             <child>
-              <object class="AdwSwitchRow" id="waybar_apps_switch">
-                <property name="title" translatable="yes">Launcher Module:</property>
-              </object>
-            </child>
-            <child>
               <object class="AdwButtonRow" id="run_waybar_configure_button">
                 <property name="title" translatable="yes">Waybar Themes</property>
               </object>
             </child>
           </object>
         </child>
-      </object>
-    </child>
-    <child>
-      <object class="AdwPreferencesPage" id="appearance_page">
-        <property name="title" translatable="yes">Appearance</property>
-        <property name="icon-name">application-x-executable-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Panel</property>

@@ -6,7 +6,7 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 from gi.repository import Gtk, Adw
 
-class BilalDotSettingsApp(Adw.Application):
+class BilalDotWelcomeApp(Adw.Application):
     def __init__(self):
         super().__init__(application_id="com.bilaldot.welcome")
         self.window = None
@@ -26,11 +26,11 @@ class BilalDotSettingsApp(Adw.Application):
 
             builder.add_from_file(ui_path)
 
-            self.dialog = builder.get_object("dialog")
+            self.window = builder.get_object("window")
             self.keybindings = builder.get_object("keybindings_button")
-            self.dialog.connect("close-request", self.on_close_request)
+            self.window.connect("close-request", self.on_close_request)
             self.keybindings.connect("clicked", self.execute_keybindings)
-            self.dialog.present()
+            self.window.present()
 
     def on_close_request(self, window, *args):
         # Uygulamayı sonlandır
@@ -45,7 +45,7 @@ class BilalDotSettingsApp(Adw.Application):
 
 if __name__ == '__main__':
     try:
-        app = BilalDotSettingsApp()
+        app = BilalDotWelcomeApp()
         app.run(None)
     except KeyboardInterrupt:
         pass
