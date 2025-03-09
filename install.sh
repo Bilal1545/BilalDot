@@ -25,6 +25,9 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     pipx install waypaper
     fi
 
+    git clone https://github.com/Bilal1545/BilalDot/
+
+    cd BilalDot
 
     cd dotfiles/.config
 
