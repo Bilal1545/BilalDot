@@ -25,24 +25,20 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     pipx install waypaper
     fi
 
-    echo "Cloning Repository..."
-    git clone https://github.com/Bilal1545/BilalDot.git
-    cd BilalDot
+
     cd dotfiles/.config
 
     echo "Copying configuration files..."
-    # .config içindeki tüm klasörleri al
-    for folder in */; do
-        folder_name=$(basename "$folder")
-        config_path="$HOME/.config/$folder_name"
 
-        # Eğer hedef klasör varsa, sil
-        if [ -d "$config_path" ]; then
-            rm -rf "$config_path"
-        fi
-
-        cp -r "$folder" "$config_path"
+    for dir in */; do
+    dir_name="${dir%/}"  # Sondaki / işaretini kaldır
+    config_path="$HOME/.config/$dir_name"
+    
+    # Yeni dizini ~/.config içine kopyala (var olanı değiştirme)
+    echo "Kopyalanıyor: $dir_name -> $config_path"
+    cp -r "$dir_name" "$config_path"
     done
+
     cd ../../assets
     cp dotfiles-logo.png /usr/share/bilaldot/bilaldot.png
     cp dotfiles-welcome-logo.png /usr/share/bilaldot/bilaldotwelcome.png
