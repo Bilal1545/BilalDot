@@ -220,7 +220,7 @@
     },
     "button-notify": {
       "command": "swaync-client -t",
-      "icon": "/usr/share/icons/Papirus-Dark/22x22/actions/stock_bell.svg",
+      "icon": "org.gnome.Settings-notifications-symbolic",
       "label": "",
       "label-position": "right",
       "tooltip": "",

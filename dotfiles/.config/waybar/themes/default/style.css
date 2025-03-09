@@ -1,3 +1,3 @@
 @import "../../../../.cache/wal/colors-waybar.css";
-@define-color theme-color #1e1e1e;
+@define-color theme-color @theme_bg_color;
 @import "../../source.css";

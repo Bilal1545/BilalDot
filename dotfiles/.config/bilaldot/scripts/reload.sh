@@ -27,7 +27,7 @@ fi
 if [ "$(cat ~/.config/bilaldot/settings/volume-notification-theme.sh)" == "apple" ]; then
     avizo-service
 else
-syshud
+~/.config/sys64/hud/launch.sh
 fi
 
 if [ "$(cat ~/.config/bilaldot/settings/hyprdim.sh)" == "true" ]; then

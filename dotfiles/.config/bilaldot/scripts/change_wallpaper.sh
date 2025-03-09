@@ -39,3 +39,4 @@ wal -i "$CURRENT_WALLPAPER" -n -s
 
 # `reload.sh` scriptini farklı bir shell ortamında bağımsız çalıştır
 hyprctl dispatch exec $HOME/.config/bilaldot/scripts/reload.sh
+

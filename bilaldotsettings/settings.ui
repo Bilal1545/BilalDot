@@ -146,16 +146,11 @@
         </child>
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Other</property>
-            <property name="description" translatable="yes">Other settings for applications.</property>
-            <child>
-              <object class="AdwSwitchRow" id="light_theme_switch">
-                <property name="title" translatable="yes">Use Light Theme:</property>
-              </object>
-            </child>
+            <property name="title" translatable="yes">Volume Notifications</property>
+            <property name="description" translatable="yes">Customize notifications for volume.</property>
             <child>
               <object class="AdwComboRow" id="volume_combo">
-                <property name="title" translatable="yes">Select Theme for Volume Notifications</property>
+                <property name="title" translatable="yes">Theme</property>
                 <property name="model">
                   <object class="GtkStringList">
                     <items>
@@ -164,6 +159,45 @@
                    </items>
                   </object>
                 </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="volume_position_combo">
+                <property name="title" translatable="yes">Position</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">bottom</item>
+                      <item translatable="yes">top</item>
+                      <item translatable="yes">left</item>
+                      <item translatable="yes">right</item>
+                   </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="volume_orientation_combo">
+                <property name="title" translatable="yes">Orientation</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">horizontal</item>
+                      <item translatable="yes">vertical</item>
+                   </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Other</property>
+            <property name="description" translatable="yes">Other settings for applications.</property>
+            <child>
+              <object class="AdwSwitchRow" id="light_theme_switch">
+                <property name="title" translatable="yes">Use Light Theme:</property>
               </object>
             </child>
             <child>

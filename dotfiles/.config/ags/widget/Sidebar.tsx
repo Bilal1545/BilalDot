@@ -135,34 +135,34 @@ export default function Sidebar() {
 		    <button onClicked={openwelcomeapp} className="btn">Welcome</button>
                     </box>
                      <box css="padding-bottom:10px;"></box>
-        <label css="padding-bottom:10px" className="ctrlsortls" label="Tools"></label>
+        <label css="padding-bottom:10px" className="ctrlsortls text" label="Tools"></label>
                 <box horizontal homogeneous><button onClicked={openwallpaper} css="margin-bottom:10px" className="btnbar">Change Wallpaper</button></box>
                 <box horizontal homogeneous><button onClicked={openwaybarthemes} css="margin-bottom:10px" className="btnbar">Change Waybar Theme</button></box>
                 <box horizontal homogeneous><button onClicked={takescreenshot} css="margin-bottom:10px" className="btnbar">Take Screenshot</button></box>
                 <box horizontal homogeneous><button onClicked={emojipicker} css="margin-bottom:10px" className="btnbar">Pick Emoji</button></box>
                 <box horizontal homogeneous><button onClicked={colorpicker} css="margin-bottom:10px" className="btnbar">Colorpicker</button></box>
         <box css="padding-bottom:140px;"></box>
-        <label css="padding-bottom:10px" className="ctrlsortls" label="Controls"></label>
+        <label css="padding-bottom:10px" className="ctrlsortls text" label="Controls"></label>
         <box className="group" halign="left" vertical>
-            <label css="padding-bottom:10px" label="Speaker"></label>
+            <label css="padding-bottom:10px" className="text" label="Speaker"></label>
             <AudioSlider/>
-            <label css="padding-bottom:10px" label="Microphone"></label>
+            <label css="padding-bottom:10px" className="text" label="Microphone"></label>
             <MicrophoneSlider />
         </box>
         <box css="padding-bottom:20px;"></box>
         <box className="group" halign="left" vertical>
-            <label css="padding-bottom:10px" label="Brightness"></label>
+            <label css="padding-bottom:10px" className="text" label="Brightness"></label>
             <BrightnessSlider />
         </box>
         <box css="padding-bottom:20px;"></box>
         <centerbox horizontal className="group">
             <label vexpand label=""></label>
             <box>
-                <button onClicked={powerlock} className="btnbar first lock"></button>
-                <button onClicked={powerlogout} className="btnbar logout"></button>
-                <button onClicked={powersuspend} className="btnbar suspend"></button>
-                <button onClicked={powerrestart} className="btnbar restart"></button>
-                <button onClicked={powerexit} className="btnbar last exit"></button>
+                <button onClicked={powerlock} className="btnbar first lock text"></button>
+                <button onClicked={powerlogout} className="btnbar logout text"></button>
+                <button onClicked={powersuspend} className="btnbar suspend text"></button>
+                <button onClicked={powerrestart} className="btnbar restart text"></button>
+                <button onClicked={powerexit} className="btnbar last exit text"></button>
             </box>
             <label vexpand label=""></label>
         </centerbox>

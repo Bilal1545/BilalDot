@@ -7,6 +7,10 @@
     font-weight: normal;
 }
 
+.text {
+    color: @theme_fg_color;
+}
+
 .calendar {
     background: #2D2D2D;
     padding: 12px;
@@ -25,7 +29,7 @@ calendar:selected {
 }
 
 .sidebar {
-    background: #2D2D2D;
+    background: @theme_bg_color;
     padding: 12px;
     margin:14px;
     border-radius: 12px;
@@ -40,7 +44,7 @@ calendar:selected {
 }
 
 .sidebar {
-    background: #2D2D2D;
+    background: @theme_bg_color;
     padding: 12px;
     margin:14px;
     border-radius: 12px;
@@ -63,10 +67,11 @@ font-size: 25px;
 .btn {
   padding:4px; 
   font-weight:bold;
+  color: white;
 }
 
 .btn:first-child {
-  border-right: 3px solid rgba(0, 0, 0, 0.3);
+  border-right: 2px solid @theme_bg_color;
 }
 
 .bilaldoticon {
@@ -86,6 +91,7 @@ font-size: 25px;
     margin:0px 4px 0px 4px;
     background-color:@color11;
     font-weight:bold;
+    color: white;
 }
 
 .btnbariconstatusbar {
@@ -173,7 +179,7 @@ font-size: 25px;
 
 .AudioSlider contents {
     min-height: 20px;
-    background-color:@color15;
+    background-color: @theme_fg_color;
     border-radius:12px;
 }
 

@@ -41,6 +41,8 @@ class BilalDotSettingsApp(Adw.Application):
             self.layout_combo = builder.get_object("layout_combo")
             self.launcher_combo = builder.get_object("launcher_combo")
             self.volume_combo = builder.get_object("volume_combo")
+            self.volume_orientation_combo = builder.get_object("volume_orientation_combo")
+            self.volume_position_combo = builder.get_object("volume_position_combo")
             #Buttons
             self.config_button = builder.get_object("run_panel_configure_button")
             self.config_waybar_button = builder.get_object("run_waybar_configure_button")
@@ -119,6 +121,8 @@ class BilalDotSettingsApp(Adw.Application):
             self.layout_combo.connect("notify::selected", self.save_preferences)
             self.launcher_combo.connect("notify::selected", self.save_preferences)
             self.volume_combo.connect("notify::selected", self.save_preferences)
+            self.volume_orientation_combo.connect("notify::selected", self.save_preferences)
+            self.volume_position_combo.connect("notify::selected", self.save_preferences)
             # Adjustments
             self.border_size_adj.connect("value-changed", self.save_preferences)
             self.gaps_in_adj.connect("value-changed", self.save_preferences)
@@ -223,6 +227,27 @@ class BilalDotSettingsApp(Adw.Application):
         except Exception:
             pass
 
+        try:
+            with open(os.path.join(CONFIG_DIR, "volume-notification-position.sh"), "r") as f:
+                content = f.read().strip()  # Dosyayı oku
+                model = self.volume_position_combo.get_model()  # Kombinasyon kutusunun modelini al
+                for i in range(model.get_n_items()):
+                    if model.get_string(i) == content:  # Eşleşen öğeyi bul
+                        self.volume_position_combo.set_selected(i)  # Seçili hale getir
+                        break
+        except Exception:
+            pass
+
+        try:
+            with open(os.path.join(CONFIG_DIR, "volume-notification-orientation.sh"), "r") as f:
+                content = f.read().strip()  # Dosyayı oku
+                model = self.volume_orientation_combo.get_model()  # Kombinasyon kutusunun modelini al
+                for i in range(model.get_n_items()):
+                    if model.get_string(i) == content:  # Eşleşen öğeyi bul
+                        self.volume_orientation_combo.set_selected(i)  # Seçili hale getir
+                        break
+        except Exception:
+            pass
 
         no_border_float_file = os.path.join(CONFIG_DIR, "no_border_float.conf")
         if os.path.isfile(no_border_float_file):
@@ -583,6 +608,26 @@ class BilalDotSettingsApp(Adw.Application):
             try:
                 with open(os.path.join(CONFIG_DIR, "volume-notification-theme.sh"), "w") as f:
                     f.write(f"{selected_volume}")
+            except Exception:
+                pass
+
+        volume_position_selected = self.volume_position_combo.get_selected()
+        if volume_position_selected != -1:
+            model = self.volume_position_combo.get_model()
+            selected_volume_position = model.get_string(volume_position_selected)
+            try:
+                with open(os.path.join(CONFIG_DIR, "volume-notification-position.sh"), "w") as f:
+                    f.write(f"{selected_volume_position}")
+            except Exception:
+                pass
+
+        volume_orientation_selected = self.volume_orientation_combo.get_selected()
+        if volume_selected != -1:
+            model = self.volume_orientation_combo.get_model()
+            selected_volume_orientation = model.get_string(volume_orientation_selected)
+            try:
+                with open(os.path.join(CONFIG_DIR, "volume-notification-orientation.sh"), "w") as f:
+                    f.write(f"{selected_volume_orientation}")
             except Exception:
                 pass
 

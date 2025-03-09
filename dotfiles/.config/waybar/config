@@ -11,7 +11,7 @@
     "margin-right": 10,
     
     "modules-left": [
-        "custom/rofi",
+    "custom/rofi",
     ],
     "spacing": 5, // Gaps between modules (4px)
 
@@ -21,14 +21,12 @@
     "modules-right": [
         //"battery",
         //"custom/screenshot_t",
-        "tray",
         "custom/sidebar",
         "power-profiles-daemon",
-        "custom/weather",
-        "clock#date",
+        "tray",
+        "clock",
         "custom/notifications",
         "custom/power",
-        
     ],
 
     // -------------------------------------------------------------------------
@@ -78,22 +76,12 @@
         "on-click-right":"~/.config/hypr/scripts/screenshot_area"
     },
 
-    "clock#1": {
-        "format": " {:%a}",
-        "tooltip": false,
-        "on-click": "gsimplecal"
+    "clock": {
+    "format": "{:%H:%M %a}",
+    "timezone": "",
+    "tooltip": false
     },
-    "clock#2": {
-        "format": " {:%d-%h-%Y}",
-        "tooltip": false,
-        "on-click": "gsimplecal"
-    },
-    "clock#3": {
-        "format": " {:%H:%M:%S %p}",
-        "tooltip": false,
-        "on-click": "gsimplecal"
-    },
-
+      
     "temperature": {
         // "thermal-zone": 1,
         "interval": 4,
@@ -172,16 +160,6 @@
         },
         "tooltip": "true"
     },
-    "custom/weather": {
-        "format": "{}",
-        "format-alt": "{alt}: {}",
-        "format-alt-click": "click-right",
-        "interval": 3600,
-        "exec": "curl -s 'https://wttr.in/Istanbul?format=1'",
-        //"return-type": "json",
-        //"exec": "~/.config/waybar/modules/weather.sh",
-        "exec-if": "ping wttr.in -c1"
-    },
     "custom/pacman": {
         "format": "<big>􏆲</big>  {}",
         "interval": 3600,                     // every hour
@@ -210,20 +188,6 @@
         "format": "",
         "tooltip": false,
         "on-click": "wlogout"
-    },
-
-    "clock": {
-        "format": "  {:%H:%M   %e %b}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "today-format": "<b>{}</b>"
-    },
-
-    "clock#date": {
-        "format": "{:%H:%M  %e %b}", // Icon: calendar-alt
-        //"format": "{:%I:%M %p  %A %b %d}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "on-click": "ags toggle calendar",
-        "today-format": "<b>{}</b>"
     },
 
     "cpu": {
@@ -265,12 +229,6 @@
         "max-length": 35,
         "exec": "$HOME/.scripts/title"
     },
-
-    /*"custom/keyboard": {
-        "format": " {}",
-        "interval": 1,
-        "exec": "$HOME/.config/waybar/get_kbdlayout.sh"
-    },*/
 
     "wlr/workspaces": {
         "on-click": "activate",
