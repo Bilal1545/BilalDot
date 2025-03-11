@@ -373,8 +373,8 @@ class BilalDotSettingsApp(Adw.Application):
             try:
                 with open(dock_auto_hide_file, "r") as f:
                     dock_auto_hide_state = f.read().strip().lower()
-                if self.dock_auto_hide_switch:
-                    self.dock_auto_hide_switch.set_active(dock_auto_hide_state == "true")
+                if self.dock_hide_switch:
+                    self.dock_hide_switch.set_active(dock_auto_hide_state == "true")
             except Exception:
                 pass
 
