@@ -368,13 +368,13 @@ class BilalDotSettingsApp(Adw.Application):
             except Exception:
                 pass
 
-        dock_glass_auto_hide_file = os.path.join(CONFIG_DIR, "dock-glass-auto-hide.sh")
-        if os.path.isfile(dock_glass_auto_hide_file):
+        dock_auto_hide_file = os.path.join(CONFIG_DIR, "dock-auto-hide.sh")
+        if os.path.isfile(dock_auto_hide_file):
             try:
-                with open(dock_glass_auto_hide_file, "r") as f:
-                    dock_glass_auto_hide_state = f.read().strip().lower()
-                if self.dock_glass_auto_hide_switch:
-                    self.dock_glass_auto_hide_switch.set_active(dock_glass_auto_hide_state == "true")
+                with open(dock_auto_hide_file, "r") as f:
+                    dock_auto_hide_state = f.read().strip().lower()
+                if self.dock_auto_hide_switch:
+                    self.dock_auto_hide_switch.set_active(dock_auto_hide_state == "true")
             except Exception:
                 pass
 
