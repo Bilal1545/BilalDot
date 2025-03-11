@@ -79,11 +79,13 @@ class BilalDotSettingsApp(Adw.Application):
             self.dock_glass_switch = builder.get_object("dock_glass_switch")
             self.dock_float_switch = builder.get_object("dock_float_switch")
             self.dock_full_switch = builder.get_object("dock_full_switch")
+            self.dock_hide_switch = builder.get_object("dock_hide_switch")
             self.dock_pos_combo = builder.get_object("dock_pos_combo")
             self.dock_icopos_combo = builder.get_object("dock_icopos_combo")
             self.dock_launcher_pos_combo = builder.get_object("dock_launcher_pos_combo")
             self.dock_size_adj = builder.get_object("dock_size_adjustment")
             self.dock_margin_adj = builder.get_object("dock_margin_adjustment")
+            self.dock_margin_bt_adj = builder.get_object("dock_margin_bt_adjustment")
 
             self.load_preferences()
 
@@ -92,11 +94,13 @@ class BilalDotSettingsApp(Adw.Application):
             self.dock_glass_switch.connect("notify::active", self.save_preferences)
             self.dock_float_switch.connect("notify::active", self.save_preferences)
             self.dock_full_switch.connect("notify::active", self.save_preferences)
+            self.dock_hide_switch.connect("notify::active", self.save_preferences)
             self.dock_pos_combo.connect("notify::selected", self.save_preferences)
             self.dock_icopos_combo.connect("notify::selected", self.save_preferences)
             self.dock_launcher_pos_combo.connect("notify::selected", self.save_preferences)
             self.dock_size_adj.connect("value-changed", self.save_preferences)
             self.dock_margin_adj.connect("value-changed", self.save_preferences)
+            self.dock_margin_bt_adj.connect("value-changed", self.save_preferences)
             #Switch
             self.welcome_switch.connect("notify::active", self.save_preferences)
             self.blur_switch.connect("notify::active", self.save_preferences)
@@ -343,6 +347,16 @@ class BilalDotSettingsApp(Adw.Application):
                     self.dock_glass_switch.set_active(dock_glass_state == "true")
             except Exception:
                 pass
+            
+        dock_float_file = os.path.join(CONFIG_DIR, "dock-float.sh")
+        if os.path.isfile(dock_float_file):
+            try:
+                with open(dock_float_file, "r") as f:
+                    dock_float_state = f.read().strip().lower()
+                if self.dock_float_switch:
+                    self.dock_float_switch.set_active(dock_float_state == "true")
+            except Exception:
+                pass
 
         dock_full_file = os.path.join(CONFIG_DIR, "dock-fullscreen.sh")
         if os.path.isfile(dock_float_file):
@@ -351,6 +365,16 @@ class BilalDotSettingsApp(Adw.Application):
                     dock_float_state = f.read().strip().lower()
                 if self.dock_float_switch:
                     self.dock_float_switch.set_active(dock_float_state == "true")
+            except Exception:
+                pass
+
+        dock_glass_auto_hide_file = os.path.join(CONFIG_DIR, "dock-glass-auto-hide.sh")
+        if os.path.isfile(dock_glass_auto_hide_file):
+            try:
+                with open(dock_glass_auto_hide_file, "r") as f:
+                    dock_glass_auto_hide_state = f.read().strip().lower()
+                if self.dock_glass_auto_hide_switch:
+                    self.dock_glass_auto_hide_switch.set_active(dock_glass_auto_hide_state == "true")
             except Exception:
                 pass
 
@@ -400,6 +424,14 @@ class BilalDotSettingsApp(Adw.Application):
                 value = f.read().strip()
                 if value:  # Eğer boş değilse
                     self.dock_margin_adj.set_value(float(value))
+        except Exception as e:
+            pass
+
+        try:
+            with open(os.path.join(CONFIG_DIR, "dock-margin-bt.sh")) as f:
+                value = f.read().strip()
+                if value:  # Eğer boş değilse
+                    self.dock_margin_bt_adj.set_value(float(value))
         except Exception as e:
             pass
 
@@ -709,6 +741,13 @@ class BilalDotSettingsApp(Adw.Application):
         except Exception:
             pass
 
+        dock_auto_hide_file = os.path.join(CONFIG_DIR, "dock-auto-hide.sh")
+        try:
+            with open(dock_auto_hide_file, "w") as f:
+                f.write(str(self.dock_hide_switch.get_active()).lower())
+        except Exception:
+            pass
+
         dock_pos_selected = self.dock_pos_combo.get_selected()
         if dock_pos_selected != -1:
             model = self.dock_pos_combo.get_model()
@@ -748,6 +787,12 @@ class BilalDotSettingsApp(Adw.Application):
         try:
             with open(os.path.join(CONFIG_DIR, "dock-margin.sh"), "w") as f:
                 f.write(f"{int(self.dock_margin_adj.get_value())}")
+        except Exception:
+            pass
+
+        try:
+            with open(os.path.join(CONFIG_DIR, "dock-margin-bt.sh"), "w") as f:
+                f.write(f"{int(self.dock_margin_bt_adj.get_value())}")
         except Exception:
             pass
 

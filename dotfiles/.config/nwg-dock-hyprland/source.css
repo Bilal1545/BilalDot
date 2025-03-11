@@ -4,6 +4,7 @@ window {
 	border-style: solid;
 	border-color: @border-color;
 	opacity:0.8;
+	transition: 0;
 }
 
 #box {

@@ -16,6 +16,10 @@ if [[ "$1" == "-d" ]]; then
   dont_install=true
 fi
 
+if [[ "$2" == "-t" ]]; then
+ test=true
+fi
+
 read -p "DO YOU WANT TO START THE INSTALLATION NOW? (Yy/Nn): " answer
 
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
@@ -25,22 +29,28 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     pipx install waypaper
     fi
 
+    if [[ "$test" != "true" ]]; then
     git clone https://github.com/Bilal1545/BilalDot/
 
     cd BilalDot
-
+   fi
     cd dotfiles/.config
 
     echo "Copying configuration files..."
 
     for dir in */; do
-    dir_name="${dir%/}"  # Sondaki / işaretini kaldır
-    config_path="$HOME/.config/$dir_name"
+    # Sonundaki '/' karakterini kaldır
+    dir_name="${dir%/}"
     
-    # Yeni dizini ~/.config içine kopyala (var olanı değiştirme)
-    echo "Kopyalanıyor: $dir_name -> $config_path"
-    cp -r "$dir_name" "$config_path"
-    done
+    # Eğer ~/.config içinde aynı isimde bir klasör varsa, üzerine yaz
+    if [ -d "$HOME/.config/$dir_name" ]; then
+        echo "Overwriting $HOME/.config/$dir_name with $dir_name..."
+        rm -rf "$HOME/.config/$dir_name"
+    fi
+    
+    # Yeni klasörü ~/.config içine kopyala
+    cp -r "$dir_name" "$HOME/.config/"
+done
 
     cd ../../assets
     cp dotfiles-logo.png /usr/share/bilaldot/bilaldot.png

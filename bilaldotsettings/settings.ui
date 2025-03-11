@@ -77,6 +77,11 @@
               </object>
             </child>
             <child>
+              <object class="AdwSwitchRow" id="dock_hide_switch">
+                <property name="title" translatable="yes">Dock Auto-hide:</property>
+              </object>
+            </child>
+            <child>
               <object class="AdwComboRow" id="dock_pos_combo">
                 <property name="title" translatable="yes">Position</property>
                 <property name="model">
@@ -135,8 +140,20 @@
                 <property name="title" translatable="yes">Margin Left And Right</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment" id="dock_margin_adjustment">
-                    <property name="lower">5</property>
+                    <property name="lower">0</property>
                     <property name="upper">200</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Margin Bottom And Top</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="dock_margin_bt_adjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">50</property>
                     <property name="step-increment">1</property>
                   </object>
                 </property>
