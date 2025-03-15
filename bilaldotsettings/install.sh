@@ -39,8 +39,5 @@ sudo mkdir -p /usr/share/bilaldot/
 sudo rm /usr/share/bilaldot/settings.ui
 sudo cp settings.ui /usr/share/bilaldot/
 
-sudo rm /usr/share/applications/bilaldotsettings.desktop
-# Copy the desktop file
-
-sudo cp bilaldotsettings.desktop /usr/share/applications/
+sudo rsync -a bilaldotsettings.desktop /usr/share/applications/
 fi
