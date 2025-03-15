@@ -11,14 +11,16 @@
 
 /* ---- Configuration ---- */
 configuration {
-    modi:                       "drun";
+    modi:                       "drun,calc";
     font:                       "Fira Sans 11";
     show-icons:                 true;
     icon-theme:                 "kora";
     display-drun:                "  ";
     display-run:                 " ";
+    display-calc:                "2+2";
     display-filebrowser:         "  ";
     display-window:              "  ";
+    display-emoji:               "😃";
     drun-display-format:        "{name}";
     hover-select:               false;
     me-select-entry:            "";
@@ -36,7 +38,7 @@ configuration {
 // Main //
 window {
     height:                      35em;
-    width:                       56em;
+    width:                       32em;
     transparency:                "real";
     fullscreen:                  false;
     enabled:                     true;
@@ -45,9 +47,8 @@ window {
     padding:                     0em;
     border:                      3px;
     border-color:                @color11;
-    border-radius:               @border-radius;
-    background-color:            @background;
-    border-radius: 2em;
+    background-color:            rgba(255, 255, 255, 0.01);
+    border-radius:               2em;
 }
 
 * {
@@ -59,36 +60,35 @@ mainbox {
     spacing:                     0em;
     padding:                     0em;
     orientation:                 vertical;
-    children:                    [ "inputbar" , "listbox" ];
+    children:                    [ "inputbar", "message", "listbox" ];
     background-color:            transparent;
-    background-image:            url("~/.cache/bilaldot/current-wallpaper.png", height);
 }
 
+message {
+    background-color:            transparent;
+    border:                      0em;
+    margin:                      2.2em 0em 0em 0em;
+    padding:                     0em;
+    spacing:                     0em;
+    border-radius:               1.1em;
+    color:                       @foreground;
+}
 
 // Inputs //
 inputbar {
     enabled:                     true;
     spacing:                     0em;
-    padding:                     5em;
-    children:                    [ "textbox-prompt-colon", "entry" ];
+    padding:                     0.5em;
+    children:                    ["entry"];
     background-color:            transparent;
-}
-
-textbox-prompt-colon {
-    enabled:                     true;
-    expand:                      false;
-    padding:                     1em 1em 0em 0em;
-    text-color:                  @foreground;
-    border-radius:               2em 0em 0em 2em;
-    background-color:            @background;
 }
 
 entry {
     enabled:                     true;
-    border-radius:               0em 2em 2em 0em;
+    border-radius:               2em;
     spacing:                     1em;
     padding:                     1em;
-    background-color:            @background;
+    background-color:            rgba(255, 255, 255, 0.04);
     text-color:                  @foreground;
     cursor:                      text;
     placeholder:                 "Search";
@@ -101,14 +101,14 @@ listbox {
     spacing:                     0em;
     orientation:                 horizontal;
     children:                    [ "listview" , "mode-switcher" ];
-    background-color:            @background;
+    background-color:            rgba(255, 255, 255, 0.01);
 }
 
 listview {
-    padding:                     1.5em;
-    spacing:                     0.5em;
+    padding:                     1em;
+    spacing:                     0.2em;
     enabled:                     true;
-    columns:                     2;
+    columns:                     1;
     lines:                       3;
     cycle:                       true;
     dynamic:                     true;
@@ -135,7 +135,7 @@ mode-switcher {
 button {
     cursor:                      pointer;
     border-radius:               2em;
-    background-color:            @background;
+    background-color:            rgba(255, 255, 255, 0.01);
     text-color:                  @foreground;
 }
 
@@ -149,7 +149,7 @@ button selected {
 element {
     enabled:                     true;
     spacing:                     0em;
-    padding:                     0.5em;
+    padding:                     0.4em;
     cursor:                      pointer;
     background-color:            transparent;
     text-color:                  @foreground;
@@ -219,7 +219,7 @@ element-text {
 // Error message //
 error-message {
     text-color:                  @foreground;
-    background-color:            @background;
+    background-color:            rgba(255, 255, 255, 0.01);
     text-transform:              capitalize;
     children:                    [ "textbox" ];
 }

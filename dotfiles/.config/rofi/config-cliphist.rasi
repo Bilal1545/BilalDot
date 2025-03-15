@@ -60,7 +60,6 @@ mainbox {
     orientation:                 horizontal;
     children:                    [ "listbox" ];
     background-color:            transparent;
-    background-image:            url("~/.cache/bilaldot/current-wallpaper.png", height);
 }
 
 /* ---- Imagebox ---- */
@@ -76,27 +75,16 @@ inputbar {
     enabled:                     true;
     spacing:                     0em;
     padding:                     1em;
-    children:                    [ "textbox-prompt-colon", "entry" ];
+    children:                    ["entry" ];
     background-color:            transparent;
-    background-image:            url("~/.config/ml4w/cache/current_wallpaper", width);
-}
-
-textbox-prompt-colon {
-    enabled:                     true;
-    expand:                      false;
-    padding:                     1em 1em 0em 0em;
-    text-color:                  @foreground;
-    border-radius:               2em 0em 0em 2em;
-    background-color:            @background;
-
 }
 
 entry {
     enabled:                     true;
-    border-radius:               0em 2em 2em 0em;
+    border-radius:               2em;
     spacing:                     1em;
     padding:                     1em;
-    background-color:            @background;
+    background-color:            rgba(255, 255, 255, 0.1);
     text-color:                  @foreground;
     cursor:                      text;
     placeholder:                 "Search";
@@ -109,7 +97,7 @@ listbox {
     spacing:                     0em;
     orientation:                 vertical;
     children:                    [ "inputbar", "listview" , "message" ];
-    background-color:            @background;
+    background-color:            rgba(255, 255, 255, 0.01);
 }
 
 listview {
@@ -145,13 +133,13 @@ mode-switcher {
 button {
     cursor:                      pointer;
     border-radius:               2em;
-    background-color:            @background;
+    background-color:            rgba(255, 255, 255, 0.01);
     text-color:                  @foreground;
 }
 
 button selected {
     background-color:            @color5;
-    text-color:                  @background;
+    text-color:                  rgba(255, 255, 255, 0.01);
 }
 
 // Elements //
@@ -241,7 +229,7 @@ textbox {
     padding:                     2em;
     margin:                      0em;
     border-radius:               0em;
-    background-color:            @background;
+    background-color:            rgba(255, 255, 255, 0.01);
     text-color:                  @foreground;
     vertical-align:              0.5;
     horizontal-align:            0.0;
@@ -250,6 +238,6 @@ textbox {
 error-message {
     padding:                     2em;
     border-radius:               2.1em;
-    background-color:            @background;
+    background-color:            rgba(255, 255, 255, 0.01);
     text-color:                  @foreground;
 }

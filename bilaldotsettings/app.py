@@ -606,10 +606,7 @@ class BilalDotSettingsApp(Adw.Application):
         no_border_float_file = os.path.join(CONFIG_DIR, "no_border_float.conf")
         try:
             with open(no_border_float_file, "w") as f:
-                if self.no_border_float_switch.get_active():
-                    f.write("windowrulev2 = bordersize 0, floating:1")
-                else:
-                    f.write("")  # Dosyayı boş bırak
+                f.write(f"$no_border_on_floating = {int(self.no_border_float_switch.get_active())}")
         except Exception:
             pass
 

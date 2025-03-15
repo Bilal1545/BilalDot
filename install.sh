@@ -38,19 +38,36 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
 
     echo "Copying configuration files..."
 
-    for dir in */; do
-    # Sonundaki '/' karakterini kaldır
-    dir_name="${dir%/}"
-    
-    # Eğer ~/.config içinde aynı isimde bir klasör varsa, üzerine yaz
-    if [ -d "$HOME/.config/$dir_name" ]; then
-        echo "Overwriting $HOME/.config/$dir_name with $dir_name..."
-        rm -rf "$HOME/.config/$dir_name"
+    # Kaynak dizin (scriptin olduğu yer)
+SOURCE_DIR="$(dirname "$(realpath "$0")")"
+
+# Hedef dizin (~/.config)
+TARGET_DIR="$HOME/.config"
+for folder in "$SOURCE_DIR"/*/; do
+    # Sadece gerçekten klasör olanları al
+    [ -d "$folder" ] || continue
+
+    # Klasör adını al
+    folder_name=$(basename "$folder")
+
+    # Hedef dizindeki ilgili klasör
+    target_path="$TARGET_DIR/$folder_name"
+
+    # Eğer hedef klasör yoksa oluştur
+    [ -d "$target_path" ] || mkdir -p "$target_path"
+
+    if [[ "$folder_name" == "bilaldot" ]]; then
+        # bilaldot klasöründe sadece yeni dosyalar eklenir, var olanlar değiştirilmez
+        rsync -av --ignore-existing "$folder" "$target_path"
+        echo "🆕 $folder_name klasörüne sadece yeni dosyalar eklendi!"
+    else
+        # Diğer tüm klasörlerde güncelleme yapılır ama dosyalar silinmez
+        rsync -av --progress "$folder" "$target_path" --exclude "custom.conf"
+        echo "✅ $folder_name güncellendi!"
     fi
-    
-    # Yeni klasörü ~/.config içine kopyala
-    cp -r "$dir_name" "$HOME/.config/"
 done
+
+echo "🎉 Tüm dotfile'lar güncellendi!"
 
     cd ../../assets
     cp dotfiles-logo.png /usr/share/bilaldot/bilaldot.png
