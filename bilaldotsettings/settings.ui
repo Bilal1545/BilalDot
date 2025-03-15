@@ -497,6 +497,11 @@
               <property name="title" translatable="yes">Monitor Settings</property>
               </object>
             </child>
+            <child>
+              <object class="AdwButtonRow" id="edit_custom_config_button">
+              <property name="title" translatable="yes">Edit custom config file for Hyprland</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>

@@ -46,6 +46,7 @@ class BilalDotSettingsApp(Adw.Application):
             #Buttons
             self.config_button = builder.get_object("run_panel_configure_button")
             self.config_waybar_button = builder.get_object("run_waybar_configure_button")
+            self.execute_custom_config_button = builder.get_object("edit_custom_config_button")
             self.float_toggle_button = builder.get_object("run_floating_toggle_button")
             self.displays_button = builder.get_object("run_displays_button")
             #Inputs
@@ -122,6 +123,7 @@ class BilalDotSettingsApp(Adw.Application):
             self.config_waybar_button.connect("activated", self.execute_waybar_config)
             self.float_toggle_button.connect("activated", self.execute_float_toggle)
             self.displays_button.connect("activated", self.execute_displays)
+            self.execute_custom_config_button.connect("activated", self.execute_custom_config)
             #Combos
             self.panel_theme_combo.connect("notify::selected", self.save_preferences)
             self.layout_combo.connect("notify::selected", self.save_preferences)
@@ -900,6 +902,12 @@ class BilalDotSettingsApp(Adw.Application):
     def execute_panel_config(self, widget):
         try:
             subprocess.run(["nwg-panel-config"], check=True)
+        except subprocess.CalledProcessError:
+            pass
+
+    def execute_custom_config(self, widget):
+        try:
+            subprocess.run([f"~/.config/bilaldot/settings/text-editor.sh ~/.config/hypr/custom.conf"], shell=True)
         except subprocess.CalledProcessError:
             pass
 
