@@ -258,6 +258,11 @@
               </object>
             </child>
             <child>
+              <object class="AdwSwitchRow" id="border_squircle_switch">
+                <property name="title" translatable="yes">Squircle Borders:</property>
+              </object>
+            </child>
+            <child>
               <object class="AdwSwitchRow" id="no_border_float_switch">
                 <property name="title" translatable="yes">No Border On Floating:</property>
               </object>

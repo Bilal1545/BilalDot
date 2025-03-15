@@ -64,6 +64,7 @@ class BilalDotSettingsApp(Adw.Application):
             self.dim_switch = builder.get_object("dim_switch")
             self.welcome_switch = builder.get_object("welcome_switch")
             self.waybar_switch = builder.get_object("waybar_switch")
+            self.squircle_borders_switch = builder.get_object("border_squircle_switch")
             #Adjustments
             self.border_size_adj = builder.get_object("border_size_adjustment")
             self.blur_size_adj = builder.get_object("blur_size_adjustment")
@@ -113,6 +114,7 @@ class BilalDotSettingsApp(Adw.Application):
             self.light_switch.connect("notify::active", self.save_preferences)
             self.sunset_switch.connect("notify::active", self.save_preferences)
             self.dim_switch.connect("notify::active", self.save_preferences)
+            self.squircle_borders_switch.connect("notify::active", self.save_preferences)
             #Inputs
             self.terminal.connect("changed", self.save_preferences)
             self.fm.connect("changed", self.save_preferences)
@@ -277,6 +279,22 @@ class BilalDotSettingsApp(Adw.Application):
                     self.no_border_float_switch.set_active(no_border_float_switch_state == "windowrulev2 = bordersize 0, floating:1")
             except Exception:
                 pass
+
+        squircle_borders_file = os.path.join(CONFIG_DIR, "rounding_power.conf")
+
+        if os.path.isfile(squircle_borders_file):
+            try:
+                with open(squircle_borders_file, "r") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line.startswith("$rounding_power"):
+                            squircle_borders_state = int(line.split("=")[1].strip())  # "=" sonrası sayıyı al
+                            if self.squircle_borders_switch:
+                                self.squircle_borders_switch.set_active(squircle_borders_state == 4)
+                            break  # Gerekli satırı bulduktan sonra döngüden çık
+            except Exception:
+                pass
+
 
         dim_file = os.path.join(CONFIG_DIR, "hyprdim.sh")
         if os.path.isfile(dim_file):
@@ -875,9 +893,19 @@ class BilalDotSettingsApp(Adw.Application):
         except Exception:
             pass
 
+        squircle_borders_file = os.path.join(CONFIG_DIR, "rounding_power.conf")
+        try:
+            with open(squircle_borders_file, "w") as f:
+                if self.squircle_borders_switch.get_active() == True:
+                    f.write(f"$rounding_power = 4")
+                else:
+                    f.write(f"$rounding_power = 2")
+        except Exception:
+            pass
+
         try:
             with open(os.path.join(CONFIG_DIR, "gaps-in.conf"), "w") as f:
-                f.write(f"$gaps-in= {int(self.gaps_in_adj.get_value())}")
+                f.write(f"$gaps-in = {int(self.gaps_in_adj.get_value())}")
         except Exception:
             pass
 
