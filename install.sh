@@ -42,6 +42,9 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
 SOURCE_DIR="$(dirname "$(realpath "$0")")"
 
 # Hedef dizin (~/.config)
+if [ ! -f "$HOME/.config/hypr/custom.conf" ]; then
+    touch "$HOME/.config/hypr/custom.conf"
+fi
 TARGET_DIR="$HOME/.config"
 for folder in "$SOURCE_DIR"/*/; do
     # Sadece gerçekten klasör olanları al
@@ -59,15 +62,11 @@ for folder in "$SOURCE_DIR"/*/; do
     if [[ "$folder_name" == "bilaldot" ]]; then
         # bilaldot klasöründe sadece yeni dosyalar eklenir, var olanlar değiştirilmez
         rsync -av --ignore-existing "$folder" "$target_path"
-        echo "🆕 $folder_name klasörüne sadece yeni dosyalar eklendi!"
     else
         # Diğer tüm klasörlerde güncelleme yapılır ama dosyalar silinmez
         rsync -av --progress "$folder" "$target_path" --exclude "custom.conf"
-        echo "✅ $folder_name güncellendi!"
     fi
 done
-
-echo "🎉 Tüm dotfile'lar güncellendi!"
 
     cd ../../assets
     cp dotfiles-logo.png /usr/share/bilaldot/bilaldot.png
