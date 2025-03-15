@@ -26,8 +26,7 @@ by Bilal (2025)
 }
 
 window {
-  background-image: url("../../.cache/bilaldot/current-wallpaper.png");
-	background-size: cover;
+	background: rgba(255, 255, 255, 0.01);
 	font-size: 16pt;
 	color: #cdd6f4;
 }
