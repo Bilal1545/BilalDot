@@ -463,6 +463,11 @@
               </object>
             </child>
             <child>
+              <object class="AdwEntryRow" id="text_editor">
+                <property name="title">Text Editor</property>
+              </object>
+            </child>
+            <child>
               <object class="AdwEntryRow" id="browser">
                 <property name="title">Browser</property>
               </object>

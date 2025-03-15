@@ -51,6 +51,7 @@ class BilalDotSettingsApp(Adw.Application):
             #Inputs
             self.terminal = builder.get_object("terminal")
             self.fm = builder.get_object("fm")
+            self.text_editor = builder.get_object("text_editor")
             self.browser = builder.get_object("browser")
             #Switch
             self.blur_switch = builder.get_object("blur_switch")
@@ -114,6 +115,7 @@ class BilalDotSettingsApp(Adw.Application):
             #Inputs
             self.terminal.connect("changed", self.save_preferences)
             self.fm.connect("changed", self.save_preferences)
+            self.text_editor.connect("changed", self.save_preferences)
             self.browser.connect("changed", self.save_preferences)
             # Buttons
             self.config_button.connect("activated", self.execute_panel_config)
@@ -184,6 +186,17 @@ class BilalDotSettingsApp(Adw.Application):
                 self.fm.set_text(fm)  # Entry'ye yükle
         except Exception as e:
             pass
+
+        text_editor_file = os.path.join(CONFIG_DIR, "text-editor.sh")
+        try:
+            with open(text_editor_file) as f:
+                text_editor = f.read().strip()  # Dosyayı oku ve baştaki/sondaki boşlukları temizle
+                text_editor = text_editor.replace("$@", "").strip()  # "$@" ifadesini kaldır ve temizle
+            if self.text_editor:  # input_entry'yi doğru bir şekilde al
+                self.text_editor.set_text(text_editor)  # Entry'ye yükle
+        except Exception as e:
+            pass
+
             
         browser_file = os.path.join(CONFIG_DIR, "browser.sh")
         try:
@@ -823,6 +836,12 @@ class BilalDotSettingsApp(Adw.Application):
         try:
             with open(os.path.join(CONFIG_DIR, "file-manager.sh"), "w") as f:
                 f.write(str(self.fm.get_text()))
+        except Exception:
+            pass
+
+        try:
+            with open(os.path.join(CONFIG_DIR, "text-editor.sh"), "w") as f:
+                f.write(str(self.text_editor.get_text()) + " $@")
         except Exception:
             pass
             
