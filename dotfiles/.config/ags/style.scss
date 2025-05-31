@@ -1,0 +1,793 @@
+@use "sass:string";
+@use "sass:color";
+@import "../../.cache/wal/colors-ags.scss";
+
+@function gtkalpha($c, $a) {
+    @return string.unquote("alpha(#{$c},#{$a})");
+}
+
+$bg: color.scale($color3, $lightness: -74%);
+$fg: #f1f1f1;
+$bg: rgba(23, 23, 23, 1);
+$radius: 15px;
+$border-width: 2px;
+
+* {
+    -gtk-icon-shadow: none;
+    box-shadow: none;
+    outline: 0;
+    border: 0;
+    color: $fg;
+    transition: .3s;
+}
+window.Bar {
+    border: 0;
+    color: $fg;
+    font-size: 1.1em;
+    font-weight: bold;
+    
+    centerbox {
+        background-color: $bg;
+        margin: 0;
+        border-radius: 0;
+        padding: 0 2px;
+    }
+    
+    label {
+        margin: 0 8px;
+    }
+    .dot {
+        background: gtkalpha($fg, .2);
+        padding: 2px;
+        border-radius: 50px;
+        margin: 0 2px;
+    }
+    .sidebar-button {
+        icon {
+            margin: 0 3px;
+        }
+    }
+    button {
+        & {
+            padding: 0 5px;
+            background: transparent;
+            border: 0;
+            border-radius: calc($radius / 1.5);
+            margin: 2px 1px;
+        }
+        &.active {
+            background: $color3;
+            color: color.scale($color3, $lightness: -90%);
+            &:hover {
+                background: color.scale($color3, $lightness: 10%);
+            }
+            &:active {
+                background: color.scale($color3, $lightness: -10%);
+            }
+        }
+        &:hover {
+            background: gtkalpha($fg, .1);
+        }
+    }
+    
+    .Workspaces  {
+        background: transparent;
+        border-radius: calc($radius / 1.5);
+        margin: 1px;
+        button {
+            all: unset;
+            border-radius: calc($radius / 1.5);
+            &:hover label {
+                color: #f6f5f4;
+                background: color.scale($color3, $lightness: -20%);
+            }
+
+            &:active label {
+                background: color.scale($color3, $lightness: -10%);
+                color: #f6f5f4;
+            }
+        }
+
+        label {
+            transition: 200ms;
+            padding: 0 8px;
+            margin: 2px;
+            border-radius: calc($radius / 1.5);
+            border: 1pt solid transparent;
+        }
+
+        .focused label {
+            color: #f6f5f4;
+            background-color: $color3;
+            padding: 0px 8px;
+        }
+    }
+    .Time {
+        background: transparent;
+        border-radius: calc($radius / 1.5);
+        padding: 0 6px;
+        margin: 0px;
+        
+    }
+    .SysTray {
+        margin: 2px;
+        border-radius: calc($radius / 1.5);
+
+        button {
+            padding: 0 4px;
+            background: transparent;
+            border: 0;
+            margin: 1px;
+            border-radius: calc($radius / 1.5);
+            background: gtkalpha($fg, .02);
+        }
+        button:hover {
+            background: gtkalpha($fg, .16);
+        }
+    }
+
+    .FocusedClient {
+        color: $fg;
+    }
+
+    .Media .Cover {
+        min-height: 1.2em;
+        min-width: 1.2em;
+        border-radius: 7px;
+        background-position: center;
+        background-size: contain;
+    }
+
+    .Battery label {
+        padding-left: 0;
+        margin-left: 0;
+    }
+}
+window {
+ all: unset;
+}
+box.desktop {
+    button {
+        background: transparent;
+        border: 0;
+        padding: 10px;
+        margin: 5px;
+        border-radius: $radius;
+        &:hover {
+            background: gtkalpha($fg, .2);
+        }
+        icon {
+            font-size: 75px;
+        }
+    }
+    .widget {
+        background: $bg;
+        box-shadow: 2px 3px 8px 0 gtkalpha(black, .4);
+        margin: 6px;
+        padding: 5px;
+        border-radius: calc($radius / 1.5);
+    }
+}
+.sidebar {
+    background-color: $bg;
+    color: $fg;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 10px;
+    min-width: 350px;
+    border: 0;
+    border-radius: $radius;
+    box.control {
+        margin: 10px;
+        background: transparent;
+        border-radius: 50px;  
+        button {
+            background: gtkalpha($fg, .1);
+            border: 0;
+            margin: 0 2px;
+            font-size: 20px;
+            padding: 6px 7px;
+            border-radius: calc($radius / 1.5);  
+            &:hover {
+                background: gtkalpha($fg, .2);
+            }
+            &.active {
+                background: $color3;
+                color: color.scale($color3, $lightness: -90%);
+                &:hover {
+                    background: color.scale($color3, $lightness: 10%);
+                }
+                &:active {
+                    background: color.scale($color3, $lightness: -10%);
+                }
+            }
+            label {
+                font-size: 14px;
+                margin: 0 0 0 3px;
+            }
+        }
+    }
+    .group {
+        background: gtkalpha($fg, .1);
+        margin: 0 10px;
+        padding: 10px;
+        border: 0;
+        border-radius: calc($radius / 1.5);
+        .AudioSlider {
+        * {
+            all: unset;
+        }
+
+        icon {
+            margin-right: .6em;
+        }
+
+        & {
+            margin: 0 1em;
+        }
+
+        trough {
+            background-color: gtkalpha($fg, .2);
+            border-radius: 7px;
+        }
+
+        highlight {
+            background-color: $color3;
+            min-height: .8em;
+            border-radius: 7px;
+        }
+
+        slider {
+            background-color: transparent;
+            border-radius: 7px;
+            min-height: 1em;
+            min-width: 1em;
+            margin: -.2em;
+        }
+    }
+    }
+    .group.top {
+        margin: 10px;
+        padding: 7px;
+        button {
+            background: gtkalpha($fg, .1);
+            border: 0;
+            margin: 0 2px;
+            font-size: 20px;
+            padding: 5px 8px;
+            border-radius: calc($radius / 1.5);  
+            &:hover {
+                background: gtkalpha($fg, .15);
+            }
+        }
+    }
+}
+box.overview {
+    background: $bg;
+    margin: 10px;
+    border-radius: $radius;
+    min-width: 350px;
+    eventbox.Notification {
+        *button {
+            background: gtkalpha($fg, .1);
+            border: 0;
+            -gtk-icon-shadow: none;
+        }
+        *button:hover {
+            background: gtkalpha($fg, .15);
+        }
+        &:first-child>box {
+            margin-top: 1rem;
+        }
+
+        &:last-child>box {
+            margin-bottom: 1rem;
+        }
+
+        // eventboxes can not take margins so we style its inner box instead
+        >box {
+            min-width: 400px;
+            border-radius: 13px;
+            background-color: gtkalpha($fg, .1);
+            margin: .5rem 1rem .5rem 1rem;
+        }
+
+        &.critical>box {
+            border: 1pt solid gtkalpha(red, .4);
+
+            .header {
+
+                .app-name {
+                    color: gtkalpha(red, .8);
+
+                }
+
+                .app-icon {
+                    color: gtkalpha(red, .6);
+                }
+            }
+        }
+
+        .header {
+            padding: .5rem;
+            color: gtkalpha($fg, 0.5);
+
+            .app-icon {
+                margin: 0 .4rem;
+            }
+
+            .app-name {
+                margin-right: .3rem;
+                font-weight: bold;
+
+                &:first-child {
+                    margin-left: .4rem;
+                }
+            }
+
+            .time {
+                margin: 0 .4rem;
+            }
+
+            button {
+                padding: .2rem;
+                min-width: 0;
+                min-height: 0;
+            }
+        }
+
+        separator {
+            margin: 0 .4rem;
+            background-color: gtkalpha($fg, .1);
+        }
+
+        .content {
+            margin: 1rem;
+            margin-top: .5rem;
+
+            .summary {
+                font-size: 1.2em;
+                color: $fg;
+            }
+
+            .body {
+                color: gtkalpha($fg, 0.8);
+            }
+
+            .image {
+                border: 1px solid gtkalpha($fg, .02);
+                margin-right: .5rem;
+                border-radius: 9px;
+                min-width: 100px;
+                min-height: 100px;
+                background-size: cover;
+                background-position: center;
+            }
+        }
+
+        .actions {
+            margin: 1rem;
+            margin-top: 0;
+
+            button {
+                margin: 0 .3rem;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+    .Time {
+        font-size: 100px;
+    }
+
+}
+.calendar {
+    background: #2D2D2D;
+    padding: 12px;
+    margin:14px;
+    border-radius: 12px;
+    font-weight: bold;
+    padding:20px;
+    min-width:320px;
+}
+
+.calendar:selected {
+    background-color: $color3;
+    padding:0px;
+    border-radius: $radius;
+}
+box.MediaPlayer {
+    padding: .6rem;
+    background: gtkalpha($fg, .1);
+    border-radius: calc($radius / 1.5);
+    margin: 5px 10px;
+    border: 0;
+    centerbox box button {
+        background: transparent;
+        border: 0;
+        &:hover {
+           background: gtkalpha($fg, .1); 
+        }
+    }
+    box.cover-art {
+        min-width: 120px;
+        min-height: 120px;
+        border-radius: 9px;
+        margin-right: .6rem;
+        background-size: contain;
+        background-position: center;
+    }
+
+    box.title {
+        label {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+    }
+
+    scale {
+        * {
+            all: unset;
+        }
+
+        icon {
+            margin-right: .6em;
+        }
+
+        & {
+            margin: 0 .05em;
+        }
+
+        trough {
+            background-color: gtkalpha($fg, .2);
+            border-radius: 7px;
+        }
+
+        highlight {
+            background-color: $color3;
+            min-height: .8em;
+            border-radius: 7px;
+        }
+
+        slider {
+            background-color: transparent;
+            border-radius: 7px;
+            min-height: 1em;
+            min-width: 1em;
+            margin: -.2em;
+        }
+    }
+
+    centerbox.actions {
+        min-width: 220px;
+
+        button {
+            min-width: 0;
+            min-height: 0;
+            padding: .4rem;
+            margin: 0 .2rem;
+        }
+    }
+}
+
+box.NotificationCenter {
+    background: $bg;
+    min-width: 430px;
+    min-height: 400px;
+}
+eventbox.Notification {
+    *button {
+        background: transparent;
+        border: 0;
+        -gtk-icon-shadow: none;
+    }
+    *button:hover {
+        background: gtkalpha($fg, .1);
+    }
+    &:first-child>box {
+        margin-top: 1rem;
+    }
+
+    &:last-child>box {
+        margin-bottom: 1rem;
+    }
+
+    // eventboxes can not take margins so we style its inner box instead
+    >box {
+        min-width: 400px;
+        border-radius: 13px;
+        background-color: $bg;
+        margin: .5rem 1rem .5rem 1rem;
+        box-shadow: 2px 3px 8px 0 gtkalpha(black, .4);
+    }
+
+    &.critical>box {
+        border: 1pt solid gtkalpha(red, .4);
+
+        .header {
+
+            .app-name {
+                color: gtkalpha(red, .8);
+
+            }
+
+            .app-icon {
+                color: gtkalpha(red, .6);
+            }
+        }
+    }
+
+    .header {
+        padding: .5rem;
+        color: gtkalpha($fg, 0.5);
+
+        .app-icon {
+            margin: 0 .4rem;
+        }
+
+        .app-name {
+            margin-right: .3rem;
+            font-weight: bold;
+
+            &:first-child {
+                margin-left: .4rem;
+            }
+        }
+
+        .time {
+            margin: 0 .4rem;
+        }
+
+        button {
+            padding: .2rem;
+            min-width: 0;
+            min-height: 0;
+        }
+    }
+
+    separator {
+        margin: 0 .4rem;
+        background-color: gtkalpha($fg, .1);
+    }
+
+    .content {
+        margin: 1rem;
+        margin-top: .5rem;
+
+        .summary {
+            font-size: 1.2em;
+            color: $fg;
+        }
+
+        .body {
+            color: gtkalpha($fg, 0.8);
+        }
+
+        .image {
+            border: 1px solid gtkalpha($fg, .02);
+            margin-right: .5rem;
+            border-radius: 9px;
+            min-width: 100px;
+            min-height: 100px;
+            background-size: cover;
+            background-position: center;
+        }
+    }
+
+    .actions {
+        margin: 1rem;
+        margin-top: 0;
+
+        button {
+            margin: 0 .3rem;
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+window.OSD {
+    box.OSD {
+        border-radius: $radius;
+        background-color: $bg;
+        padding: 5px 16px;
+        margin: 13px;
+        box-shadow: 3px 3px 7px 0 rgba(0,0,0,.4);
+        .OSDSlider {
+        * {
+            all: unset;
+        }
+
+        icon {
+            margin-right: .6em;
+        }
+
+        & {
+            margin: 0 1em;
+        }
+
+        trough {
+            background-color: gtkalpha($fg, .2);
+            border-radius: 7px;
+        }
+
+        highlight {
+            background-color: $color3;
+            min-height: 1em;
+            border-radius: 7px;
+        }
+    }
+
+    icon {
+        font-size: 4rem;
+    }
+
+    label {
+        font-size: 1.7rem;
+    }
+    }
+
+    levelbar {
+        outline: 0;
+        border: 0;
+        background: 0;
+        block {
+            min-height: 2rem;
+            background: $color3;
+            outline: 0;
+            border: 0;
+        }
+        trough {
+            background: gtkalpha($fg, .2);
+        }
+    }
+}
+box.Power {
+    background: $bg;
+    padding: .7em;
+    padding-bottom: 1em;
+    border-radius: $radius;
+    margin: .3em;
+    button {
+        border: 0;
+        background: transparent;
+        margin: 0 .5em;
+        padding: .1em;
+        border-radius: $radius;
+        &:hover {
+            background: gtkalpha($fg, .1);
+        }
+        icon {
+            font-size: 10em;
+        }
+    }
+}
+.settings {
+    min-width: 600px;
+    min-height: 600px;
+    padding: 5px;
+    background: $bg;
+    .Switch {
+        background: gtkalpha($fg, .1);
+        min-width: 50px;
+        min-height: 10px;
+        &.active {
+            background: $color3;
+        }
+    }
+}
+window#launcher {
+    all: unset;
+
+    box.Applauncher {
+        background-color: $bg;
+        border-radius: 11px;
+        margin: 1rem;
+        padding: .8rem;
+        box-shadow: 2px 3px 8px 0 gtkalpha(black, .4);
+
+        entry {
+            margin-bottom: .8rem;
+            border: 0;
+            background: gtkalpha($fg, .1);
+            &:active {
+                border: $color3;
+            }
+        }
+
+        button {
+            min-width: 0;
+            min-height: 0;
+            padding: .5rem;
+            border: 0;
+            background: transparent;
+            transition: 0.08s;
+            
+            &:hover {
+                background: gtkalpha($fg, .1);
+            }
+
+            &:focus {
+                background: $color3;
+                &:hover {
+                    background: color.scale($color3, $lightness: 10%);
+                }
+            }
+
+            icon {
+                font-size: 3em;
+                margin-right: .3rem;
+            }
+
+            label.name {
+                font-weight: bold;
+                font-size: 1.1em
+            }
+
+            label.description {
+                color: gtkalpha($fg, .8);
+            }
+        }
+
+        box.not-found {
+            padding: 1rem;
+
+            icon {
+                font-size: 6em;
+                color: gtkalpha($fg, .7);
+            }
+
+            label {
+                color: gtkalpha($fg, .9);
+                font-size: 1.2em;
+            }
+        }
+    }
+}
+box.dock {
+    background: $bg;
+    padding: 5px;
+    border-radius: $radius;
+    margin: 5px;
+    box-shadow: 2px 3px 8px 0 gtkalpha(black, .4);
+    button {
+        background: transparent;
+        padding: 5px 5px;
+        border-radius: calc($radius / 1.2);
+        &:hover {
+            background: gtkalpha($fg, .1);
+        }
+        icon {
+            font-size: 50px;
+            margin: 0;
+            opacity: 0.6;
+            &.active {
+                opacity: 1;
+            }
+        }
+    }
+    .seperator {
+         border-right: 2px solid gtkalpha($fg, .3);
+         margin: 6px 3px;
+    }
+}
+.screenshot {
+    background: rgba(0, 0, 0, 0.2);
+}
+.lock {
+    background: $bg;
+    entry {
+        
+    }
+}
