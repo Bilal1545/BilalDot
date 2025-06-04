@@ -1,12 +1,10 @@
 # BilalDot Dotfiles
-> the latest version is 1.1.0
+> the latest version is 2.0
 
 An half-advanced configuration of Hyprland for Arch Linux based distributions. It has Pywal coloring, settings app, welcome app and lot of more...
 
-Inspired by [ML4W Dotfiles](https://github.com/mylinuxforwork/dotfiles/tree/main). If you don't like mine, you can look at [this](https://github.com/mylinuxforwork/dotfiles/tree/main).
-
 ## Installation
-I recommend to install a base Hyprland system before installing the BilalDot Dotfiles.
+I recommend to install a base Hyprland system before installing the Bi-Shell Dotfiles.
 
 You can find the Hyprland Installation instructions here: https://wiki.hyprland.org/Getting-Started/Installation/
 
