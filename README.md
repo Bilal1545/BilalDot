@@ -1,7 +1,7 @@
-# BilalDot Dotfiles
+# Bi-Shell Dotfiles
 > the latest version is 2.0
 
-An half-advanced configuration of Hyprland for Arch Linux based distributions. It has Pywal coloring, settings app, welcome app and lot of more...
+An desktop shell for Hyprland and Arch Linux based distributions (optional). It has dynamic coloring, settings app, bar, app launcher and lot of more...
 
 ## Installation
 I recommend to install a base Hyprland system before installing the Bi-Shell Dotfiles.
