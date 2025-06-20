@@ -4,12 +4,15 @@ import Wp from "gi://AstalWp"
 import { Variable, GLib, bind } from "astal"
 import { subprocess, exec, execAsync } from "astal/process"
 import { Astal, Gtk, Gdk } from "astal/gtk3"
-import Network from "gi://AstalNetwork"
-import { type Subscribable } from "astal/binding"
-import { useRef, useEffect, useState } from "astal"
-import Mpris from "gi://AstalMpris"
-import option from "./option.ts"
-import Bluetooth from "gi://AstalBluetooth"
+import option from "./options.js"
+
+function hide() {
+    App.get_window("screenshot")!.hide()
+    if (option.dock.enabled == true) {
+        App.get_window("dock")!.show()
+    }
+    App.get_window("bar")!.show()
+}
 
 export default function Screenshot() {
     const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
@@ -19,16 +22,26 @@ export default function Screenshot() {
         application={App}
         visible={false} 
         className="screenshot"
+        keymode={Astal.Keymode.ON_DEMAND}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         layer={Astal.Layer.OVERLAY}
+        onKeyPressEvent={function (self, event: Gdk.Event) {
+            if (event.get_keyval()[1] === Gdk.KEY_Escape)
+                hide()
+        }}
         anchor={TOP | BOTTOM | LEFT | RIGHT}>    
         <box className="screenshot" vertical>
-            <box className="group top" halign={Gtk.Align.END}>
+            <box className="buttons" spacing={5} halign={Gtk.Align.CENTER} vexpand valign={Gtk.Align.END}>
                 <button onClicked={() => {
                     execAsync("hyprshot")
                 }}><icon icon="applets-screenshooter-symbolic" /></button>
-                <button onClicked="hyprlock"><icon icon="system-lock-screen" /></button>
-                <button onClicked="ags toggle power"><icon icon="system-shutdown" /></button>
+                <button onClicked={() => {
+                    execAsync("cp ~/bilaldot/screenshot.png ~/Pictures/$(date +%s).png")
+                }}><icon icon="view-fullscreen-symbolic" /></button>
+                <box className="seperator" />
+                <button onClicked={() => {
+                    hide()
+                }}><label label="X" /></button>
             </box>
             <box css="padding-bottom:5px;"></box>
         </box>

@@ -1,7 +1,12 @@
 import Apps from "gi://AstalApps"
 import { App, Astal, Gdk, Gtk } from "astal/gtk3"
 import { Variable } from "astal"
-import option from "./option.ts"
+import option from "./options.js"
+
+function vertical_control(): boolean {
+    return option.bar.position === "left" || option.bar.position === "right"
+}
+
 export default function Power() {
     const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
     let anchor
@@ -24,7 +29,7 @@ export default function Power() {
             if (event.get_keyval()[1] === Gdk.KEY_Escape)
                 self.hide()
         }}>
-        <box className="Power">
+        <box vertical={vertical_control()} className="Power">
             <button onClick="hyprctl dispatch exec ~/.config/bilaldot/scripts/power.sh shutdown">
                 <icon icon="system-shutdown" />
             </button>

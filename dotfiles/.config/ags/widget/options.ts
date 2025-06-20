@@ -9,14 +9,13 @@ export default {
     bar: {
       enabled: true,
       position: "top",
-      valign: Gtk.Align.CENTER,
-      halign: Gtk.Align.END,
     },
     osd: {
       position: "bottom"
     },
     dock: {
       enabled: false,
+      position: "bottom",
       exclusive: false,
       pinned_apps: [
       ],

@@ -3,7 +3,7 @@ import { timeout } from "astal/time"
 import Variable from "astal/variable"
 import Brightness from "./brightness"
 import Wp from "gi://AstalWp"
-import option from "./option.ts"
+import option from "./options"
 
 function OnScreenProgress({ visible }: { visible: Variable<boolean> }) {
     const brightness = Brightness.get_default()
@@ -64,17 +64,6 @@ function OnScreenProgress({ visible }: { visible: Variable<boolean> }) {
 
 export default function OSD(monitor: Gdk.Monitor) {
     const visible = Variable(false)
-    const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
-    let anchor
-    if (option.osd.position === "bottom") {
-        anchor = BOTTOM
-    } else if (option.osd.position === "top"){ 
-        anchor = TOP
-    } else if (option.osd.position === "left") {
-        anchor = LEFT
-    } else if (option.osd.position === "right") {
-        anchor = RIGHT
-    }  
 
     return (
         <window
@@ -84,7 +73,7 @@ export default function OSD(monitor: Gdk.Monitor) {
             application={App}
             layer={Astal.Layer.OVERLAY}
             keymode={Astal.Keymode.ON_DEMAND}
-            anchor={anchor}
+            anchor={Astal.WindowAnchor[option.osd.position.toUpperCase()]}
         >
             <eventbox onClick={() => visible.set(false)}>
                 <OnScreenProgress visible={visible} />

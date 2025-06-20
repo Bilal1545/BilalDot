@@ -2,7 +2,7 @@ import { App } from "astal/gtk3";
 import { Variable, GLib, bind } from "astal";
 import { Astal, Gtk, Gdk } from "astal/gtk3";
 import Hyprland from "gi://AstalHyprland";
-import option from "./option.ts"
+import option from "../options.js"
 import { subprocess, exec, execAsync } from "astal/process"
 
 function launchApp(app: string) {
@@ -12,6 +12,10 @@ function launchApp(app: string) {
     execAsync(`flatpak run ${app}`);
 }
 
+function vertical_control(): boolean {
+    return option.dock.position === "left" || option.dock.position === "right"
+}
+
 function Dock() {
     const hypr = Hyprland.get_default();
 
@@ -19,12 +23,14 @@ function Dock() {
 
     return <window
         className="Dock"
+        name={"dock"}
+        application={App}
         exclusivity={option.dock.exclusive === true ? Astal.Exclusivity.EXCLUSIVE : false}
-        anchor={Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT}>
-        <box className="dock" orientation={Gtk.Orientation.HORIZONTAL} spacing={4} halign={Gtk.Align.CENTER}>
+        anchor={Astal.WindowAnchor[option.dock.position.toUpperCase()]}>
+        <box vertical={vertical_control()} className="dock" spacing={4} halign={Gtk.Align.CENTER}>
             <button tooltipText="Launcher"
                 className="launcher"
-                onClicked={() => execAsync("rofi -show drun")}>
+                onClicked={() => execAsync("ags toggle launcher")}>
                 <icon className="active" icon="view-app-grid-symbolic" />
             </button>
             <box className="seperator" />
@@ -37,10 +43,11 @@ function Dock() {
                         <box key={`client-${index}`} orientation={Gtk.Orientation.VERTICAL} halign={Gtk.Align.CENTER}>
                             <button
                                 tooltipText={client.initialTitle}
-                                onClicked={() => client.focus()}>
+                                onClicked={() => client.focus()}
+                                className={client.focused ? "active" : ""}>
                                 <icon
-                                    className={client.mapped === true ? "active" : ""}
-                                    icon={client.class === "zen" ? "zen-browser" : client.class} />
+                                    icon={client.initialTitle.toLowerCase().replace(/\s+/g, '-')} />
+                                <box className={"dot"} />
                             </button>
                         </box>
                     ))
@@ -48,6 +55,7 @@ function Dock() {
             {pinnedApps.map((app, index) => (
                 <button key={`pinned-${index}`}
                     tooltipText={app}
+                    className={"not-executed"}
                     onClicked={() => launchApp(app)}>
                     <icon icon={app} />
                 </button>

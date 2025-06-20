@@ -7,8 +7,9 @@ import Battery from "gi://AstalBattery"
 import Wp from "gi://AstalWp"
 import Network from "gi://AstalNetwork"
 import Tray from "gi://AstalTray"
-import option from "./option.ts"
+import option from "./options.js"
 import { subprocess, exec, execAsync } from "astal/process"
+import MediaPlayer from "./MediaPlayer.js"
 
 function SysTray() {
     const tray = Tray.get_default()
@@ -45,6 +46,7 @@ function Workspaces() {
             .sort((a, b) => a.id - b.id)
             .map(ws => (
                 <button
+                    halign={Gtk.Align.CENTER}
                     className={bind(hypr, "focusedWorkspace").as(fw =>
                         ws === fw ? "focused" : "")}
                     onClicked={() => ws.focus()}>
@@ -60,9 +62,14 @@ function FocusedClient() {
 
     return <box
         className="Focused"
+        vertical
         visible={focused.as(Boolean)}>
         {focused.as(client => (
-            client && <label className="FocusedClient" halign={Gtk.Align.START} label={bind(client, "initialTitle").as(String)} />
+            client &&
+            <box vertical>
+                <label className="FocusedClass" halign={Gtk.Align.START} css={"font-size: 8px;color: rgba(255, 255, 255, .6);"} label={bind(client, "class").as(String)} />
+                <label className="FocusedTitle" halign={Gtk.Align.START} css={"font-size: 12px;"} label={bind(client, "initialTitle").as(String)} />
+            </box>
         ))}
     </box>
 }
@@ -77,13 +84,28 @@ function Time() {
     const minute = Variable<string>("").poll(1000, () =>
         GLib.DateTime.new_now_local().format("%M")!)
 
-    return <button onClick="ags toggle overview">
-    <label
-        className="Time"
-        onDestroy={() => whole_hour.drop()}
-        label={whole_hour()}
-    />
+    if (vertical_control()) {
+    return <button vertical>
+        <label
+            className="Time"
+            onDestroy={() => hour.drop()}
+            label={hour()}
+        />
+        <label
+            className="Time"
+            onDestroy={() => minute.drop()}
+            label={minute()}
+        />
     </button>
+    } else {
+    return <button>
+        <label
+            className="Time"
+            onDestroy={() => whole_hour.drop()}
+            label={whole_hour()}
+        />
+    </button>
+    }
 }
 export default function Bar(monitor: Gdk.Monitor) {
     const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
@@ -109,27 +131,26 @@ export default function Bar(monitor: Gdk.Monitor) {
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={anchor}>
         <centerbox vertical={vertical_control()}>
+            
             <box vertical={vertical_control()} hexpand valign={option.bar.position === "left" || option.bar.position === "right" ? Gtk.Align.START : Gtk.Align.CENTER}>
                 
                 <Workspaces />
-                { /* <box className="dot" halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER} />
-                 <FocusedClient /> */ }
+                
+                {/* <FocusedClient /> */}
             </box>
             <box vertical={vertical_control()}>
-                <button onClick="hyprctl dispatch exec waypaper"><icon icon="preferences-desktop-wallpaper" /></button>
-                <box className="dot" halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER} />
+                <button halign={Gtk.Align.CENTER} onClicked={() => {
+                    execAsync("ags toggle MediaPlayer")
+                }}><icon icon="media-playback-start-symbolic" /></button>
                 <Time />
-                <box className="dot" halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER} />
-                <button onClicked={() => {
+                <button halign={Gtk.Align.CENTER} onClicked={() => {
                     execAsync("hyprshot")
                 }}><icon icon="applets-screenshooter-symbolic" /></button>
             </box>
             <box hexpand vertical={vertical_control()} halign={option.bar.position === "left" || option.bar.position === "right" ? Gtk.Align.CENTER : Gtk.Align.END} valign={option.bar.position === "left" || option.bar.position === "right" ? Gtk.Align.END : Gtk.Align.CENTER}>
                 <SysTray />
-                <box visible={bind(bat, "isPresent")} className="dot" halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER} />
                 <BatteryLevel />
-                <box className="dot" halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER} />
-                <button onClicked={() => {
+                <button halign={Gtk.Align.CENTER} css={`padding: ${vertical_control() ? "5px 2px" : "0px 5px"};`} onClicked={() => {
                     execAsync("ags toggle sidebar")
                 }}>
                     <box className="sidebar-button" vertical={vertical_control()}>

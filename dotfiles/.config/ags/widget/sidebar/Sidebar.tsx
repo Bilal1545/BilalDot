@@ -1,15 +1,18 @@
 import { App } from "astal/gtk3"
 import Apps from "gi://AstalApps"
 import Wp from "gi://AstalWp"
-import { Variable, GLib, bind } from "astal"
+import { Variable, GLib, bind, timeout } from "astal"
 import { subprocess, exec, execAsync } from "astal/process"
-import { Astal, Gtk, Gdk } from "astal/gtk3"
+//import MediaPlayer from "../indicators/MediaPlayer"
+import { GObject } from "astal";
+import { Astal, Gtk, Gdk, astalify } from "astal/gtk3"
 import Brightness from "./Brightness"
+import Notifications from "./Notifications"
 import Network from "gi://AstalNetwork"
 import { type Subscribable } from "astal/binding"
 import { useRef, useEffect, useState } from "astal"
+import option from "../options"
 import Mpris from "gi://AstalMpris"
-import option from "../option.ts"
 import Bluetooth from "gi://AstalBluetooth"
 
 function BrightnessSlider() {
@@ -21,6 +24,19 @@ function BrightnessSlider() {
             hexpand
             value={bind(brightness, "screen")}
             onDragged={({ value }) => brightness.screen = value}
+        />
+    </box>
+}
+
+function MicrophoneSlider() {
+    const microphone = Wp.get_default()?.audio.defaultMicrophone!
+
+    return <box className="AudioSlider" css="min-width: 140px">
+        <icon icon={bind(microphone, "volumeIcon")} />
+        <slider
+            hexpand
+            onDragged={({ value }) => microphone.volume = value}
+            value={bind(microphone, "volume")}
         />
     </box>
 }
@@ -38,24 +54,6 @@ function AudioSlider() {
     </box>
 }
 
-function MicrophoneSlider() {
-    const microphone = Wp.get_default()?.audio.defaultMicrophone!
-
-    return <box className="AudioSlider" css="min-width: 140px">
-        <slider
-            hexpand
-            onDragged={({ value }) => microphone.volume = value}
-            value={bind(microphone, "volume")}
-        />
-    </box>
-}
-
-function opensettingsapp() {
-    execAsync("hyprctl dispatch exec bilaldotsettings")
-    App.get_window("sidebar")!.hide()
-    App.toggle_window('settings-dialog');
-}
-
 function Time({ format = "%H:%M" }) {
     const time = Variable<string>("").poll(1000, () =>
         GLib.DateTime.new_now_local().format(format)!)
@@ -67,86 +65,20 @@ function Time({ format = "%H:%M" }) {
         />
 }
 
-function lengthStr(length: number) {
-    const min = Math.floor(length / 60)
-    const sec = Math.floor(length % 60)
-    const sec0 = sec < 10 ? "0" : ""
-    return `${min}:${sec0}${sec}`
-}
+class Calendar extends astalify(Gtk.Calendar) {
+    static {
+        GObject.registerClass(this);
+    }
 
-
-function MediaPlayer({ player }: { player: Mpris.Player }) {
-    const { START, END } = Gtk.Align
-
-    const title = bind(player, "title").as(t =>
-        t || "Unknown Track")
-
-    const artist = bind(player, "artist").as(a =>
-        a || "Unknown Artist")
-
-    const coverArt = bind(player, "coverArt").as(c =>
-        `background-image: url('${c}')`)
-
-    const playerIcon = bind(player, "entry").as(e =>
-        Astal.Icon.lookup_icon(e) ? e : "audio-x-generic-symbolic")
-
-    const position = bind(player, "position").as(p => player.length > 0
-        ? p / player.length : 0)
-
-    const playIcon = bind(player, "playbackStatus").as(s =>
-        s === Mpris.PlaybackStatus.PLAYING
-            ? "media-playback-pause-symbolic"
-            : "media-playback-start-symbolic"
-    )
-
-    return <box className="MediaPlayer">
-        <box className="cover-art" css={coverArt} />
-        <box vertical>
-            <box className="title">
-                <label truncate hexpand halign={START} label={title} />
-                <icon icon={playerIcon} />
-            </box>
-            <label halign={START} valign={START} vexpand wrap label={artist} />
-            <slider
-                visible={bind(player, "length").as(l => l > 0)}
-                onDragged={({ value }) => player.position = value * player.length}
-                value={position}
-            />
-            <centerbox className="actions">
-                <label
-                    hexpand
-                    className="position"
-                    halign={START}
-                    visible={bind(player, "length").as(l => l > 0)}
-                    label={bind(player, "position").as(lengthStr)}
-                />
-                <box>
-                    <button
-                        onClicked={() => player.previous()}
-                        visible={bind(player, "canGoPrevious")}>
-                        <icon icon="media-skip-backward-symbolic" />
-                    </button>
-                    <button
-                        onClicked={() => player.play_pause()}
-                        visible={bind(player, "canControl")}>
-                        <icon icon={playIcon} />
-                    </button>
-                    <button
-                        onClicked={() => player.next()}
-                        visible={bind(player, "canGoNext")}>
-                        <icon icon="media-skip-forward-symbolic" />
-                    </button>
-                </box>
-                <label
-                    className="length"
-                    hexpand
-                    halign={END}
-                    visible={bind(player, "length").as(l => l > 0)}
-                    label={bind(player, "length").as(l => l > 0 ? lengthStr(l) : "0:00")}
-                />
-            </centerbox>
-        </box>
-    </box>
+    /**
+     * Creates an instance of Calendar.
+     * @param props - The properties for the Calendar component.
+     * @memberof Calendar
+     */
+    constructor(props: ConstructProps<Calendar, Gtk.Calendar.ConstructorProps>) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        super(props as any);
+    }
 }
 
 export default function Sidebar() {
@@ -154,6 +86,7 @@ export default function Sidebar() {
     const bluetooth = Bluetooth.get_default()
     const mpris = Mpris.get_default()
     const wifiopened = false
+    const speaker = Wp.get_default()?.audio.defaultSpeaker!
     const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
     let anchor
     if (option.bar.position === "bottom") {
@@ -166,6 +99,18 @@ export default function Sidebar() {
         anchor = RIGHT | BOTTOM
     } 
 
+    const stack = Variable("notifications")
+    const stack2 = Variable("calendar")
+    const Gamemode = Variable(
+        GLib.file_test(`${GLib.get_home_dir()}/.cache/bilaldot/gamemode-enabled`, GLib.FileTest.EXISTS) ? "active" : ""
+    )
+
+
+    timeout(2000, () => {
+        stack.value = "notifications"
+    })
+
+
     return <window 
         name="sidebar"
         application={App}
@@ -173,47 +118,105 @@ export default function Sidebar() {
         className="Sidebar"
         anchor={anchor}>    
         <box className="sidebar" vertical>
-            <box className="group top" halign={Gtk.Align.END}>
-                <button onClicked={() => {
-                    execAsync("hyprshot")
-                }}><icon icon="applets-screenshooter-symbolic" /></button>
-                <button onClicked={opensettingsapp}><icon icon="org.gnome.Settings-system-symbolic" /></button>
-                <button onClicked="hyprlock"><icon icon="system-lock-screen" /></button>
-                <button onClicked={"ags toggle power"}><icon icon="system-shutdown" /></button>
+            <box>
+                <label label={GLib.get_user_name()} />
+                <box className="group top" spacing={5} hexpand halign={Gtk.Align.END}>
+                    <button onClicked={() => {
+                        App.get_window("sidebar")!.hide()
+                        setTimeout(function () {
+                            execAsync("hyprctl dispatch exec grim ~/.cache/bilaldot/screenshot.png")
+                            setTimeout(function () {
+                            App.get_window("screenshot")!.show()
+                            if (option.dock.enabled == true) {
+                                App.get_window("dock")!.hide()
+                            }
+                            App.get_window("bar")!.hide()
+                            }, 1000)
+                        }, 1000)
+                        
+                    }}><icon icon="applets-screenshooter-symbolic" /></button>
+                    <button onClicked={() => {
+                        execAsync("hyprctl dispatch exec bilaldotsettings")
+                        App.get_window("sidebar")!.hide()
+                        App.toggle_window('settings-dialog');
+                    }}><icon icon="org.gnome.Settings-system-symbolic" /></button>
+                    <button onClicked={() => {
+                        execAsync("hyprlock")
+                        App.get_window("sidebar")!.hide()
+                    }}><icon icon="system-lock-screen" /></button>
+                    <button onClicked={() => {
+                        App.get_window("power")!.show()
+                        App.get_window("sidebar")!.hide()
+                    }}><icon icon="system-shutdown" /></button>
+                </box>
             </box>
-            <box horizontal className="control">
+            <box horizontal halign={Gtk.Align.CENTER} spacing={4} className="control">
                 <button
                 className={bind(wifi, "state").as(state =>
-                    state === 100 ? "active" : ""
+                    state === 100 ? "active thick" : "thick"
                 )}
                 onClicked={() => {
                     execAsync("nm-connection-editor")
                 }}>
-                <box>
-                    <icon icon={bind(wifi, "iconName")} />
-                    <label 
-                    label={bind(wifi, "ssid").as(s => 
-                        s ? (s.length > 7 ? s.slice(0, 10) + "…" : s) : "Not connected")} 
-                    className="wifi-ssid" 
-                    tooltipText={bind(wifi, "ssid")}
-                    halign={Gtk.Align.CENTER} 
-                    />
-                </box>
+                <icon icon={bind(wifi, "iconName")} />
+                </button>
+                <button
+                className={bind(Gamemode)}
+                onClicked={() => {
+                    execAsync("hyprctl dispatch exec ~/.config/bilaldot/scripts/gamemode.sh")
+                }}>
+                <icon icon={"applications-games-symbolic"} />
                 </button>
             </box>
-            <box css="padding-bottom:5px;"></box>
-            <box className="group" vertical>
-                <AudioSlider />
-                <box css="padding-bottom:10px;"></box>
-                <BrightnessSlider />
+            <box vertical className={"group"}>
+                <box hexpand className={"stackbar"}>
+                    <button halign={Gtk.Align.CENTER} className={bind(stack).as(v => v == "notifications" ? "active" : "")} vertical hexpand onClick={() => stack.set("notifications")}><box vertical><icon icon={"org.gnome.Settings-notifications-symbolic"} /><label label="Notifications" /></box></button>
+                    <button halign={Gtk.Align.CENTER} className={bind(stack).as(v => v == "volume" ? "active" : "")} vertical hexpand onClick={() => stack.set("volume")}><box vertical><icon icon={bind(speaker, "volumeIcon")} /><label label="Controls" /></box></button>
+                </box>
+                <stack shown={bind(stack)}>
+                    <box name="notifications" vertical>
+                        <Notifications />
+                    </box>
+                    <box name="volume" spacing={10} vertical>
+                        <AudioSlider />
+                        <BrightnessSlider />
+                        <MicrophoneSlider />
+                    </box>
+                </stack>
             </box>
-            <box css="padding-bottom:5px;"></box>
-            <box className="media-players" vertical>
-            {bind(mpris, "players").as(arr => arr.map(player => (
-                <MediaPlayer player={player} />
-            )))}
+            <box className={"group horizontal"}>
+                <box vexpand halign={Gtk.Align.START} vertical className={"stackbar horizontal"}>
+                    <button halign={Gtk.Align.CENTER} vexpand valign={Gtk.Align.CENTER} className={bind(stack2).as(v => v == "calendar" ? "active" : "")} vertical hexpand onClick={() => stack2.set("calendar")}><box vertical><icon halign={Gtk.Align.CENTER} icon={"x-office-calendar-symbolic"} /><label label="Calendar" /></box></button>
+                    <button halign={Gtk.Align.CENTER} vexpand valign={Gtk.Align.CENTER} className={bind(stack2).as(v => v == "todo" ? "active" : "")} vertical hexpand onClick={() => stack2.set("todo")}><box vertical><icon halign={Gtk.Align.CENTER} icon={"checkmark-symbolic"} /><label label="To-do" /></box></button>
+                </box>
+                <stack shown={bind(stack2)}>
+                    <box name="calendar" vertical>
+                        <box
+                            className={'calendar-menu-item-container calendar'}
+                            halign={Gtk.Align.FILL}
+                            valign={Gtk.Align.FILL}
+                            expand
+                        >
+                            <box className={'calendar-container-box'}>
+                                <Calendar
+                                    className={'calendar-menu-widget'}
+                                    halign={Gtk.Align.FILL}
+                                    valign={Gtk.Align.FILL}
+                                    showDetails={false}
+                                    expand
+                                    showDayNames
+                                    showHeading
+                                />
+                            </box>
+                        </box>
+                    </box>
+                    <box name="todo" vertical>
+                        <label label={"To-Do"} />
+                    </box>
+                    <box name={"none"} />
+                </stack>
             </box>
-            <box css="padding-bottom:5px;"></box>
+            {/*<MediaPlayer />*/}
         </box>
     </window>
 }

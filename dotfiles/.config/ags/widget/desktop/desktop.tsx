@@ -8,7 +8,22 @@ import Network from "gi://AstalNetwork"
 import { type Subscribable } from "astal/binding"
 import { useRef, useEffect, useState } from "astal"
 import Mpris from "gi://AstalMpris"
-import option from "../option.ts"
+import option from "../options.js"
+
+function Time() {
+    const whole_hour = Variable<string>("").poll(1000, () =>
+        GLib.DateTime.new_now_local().format("%H:%M")!)
+    const hour = Variable<string>("").poll(1000, () =>
+        GLib.DateTime.new_now_local().format("%H")!)
+    const minute = Variable<string>("").poll(1000, () =>
+        GLib.DateTime.new_now_local().format("%M")!)
+
+    return <label
+        className="Time"
+        onDestroy={() => whole_hour.drop()}
+        label={whole_hour()}
+    />
+}
 
 export default function Desktop() {
     const wifi = Network.get_default()?.wifi!
