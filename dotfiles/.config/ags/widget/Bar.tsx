@@ -85,17 +85,19 @@ function Time() {
         GLib.DateTime.new_now_local().format("%M")!)
 
     if (vertical_control()) {
-    return <button vertical>
-        <label
-            className="Time"
-            onDestroy={() => hour.drop()}
-            label={hour()}
-        />
-        <label
-            className="Time"
-            onDestroy={() => minute.drop()}
-            label={minute()}
-        />
+    return <button hexpand css={"padding: unset;"} vertical halign={Gtk.Align.CENTER}>
+        <box vertical>
+          <label
+              className="Time"
+              onDestroy={() => hour.drop()}
+              label={hour()}
+          />
+          <label
+              className="Time"
+              onDestroy={() => minute.drop()}
+              label={minute()}
+          />
+        </box>
     </button>
     } else {
     return <button>
