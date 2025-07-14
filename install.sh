@@ -2,13 +2,7 @@
 
 clear
 dont_install=false
-cat <<"EOF"
- ____  _ _       _ ____        _     ____        _    __ _ _           
-| __ )(_) | __ _| |  _ \  ___ | |_  |  _ \  ___ | |_ / _(_) | ___  ___ 
-|  _ \| | |/ _` | | | | |/ _ \| __| | | | |/ _ \| __| |_| | |/ _ \/ __|
-| |_) | | | (_| | | |_| | (_) | |_  | |_| | (_) | |_|  _| | |  __/\__ \
-|____/|_|_|\__,_|_|____/ \___/ \__| |____/ \___/ \__|_| |_|_|\___||___/ 
-EOF
+echo Bi-Shell
 echo "By Adnan Bilal ACAR"
 echo
 
@@ -25,11 +19,19 @@ read -p "DO YOU WANT TO START THE INSTALLATION NOW? (Yy/Nn): " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     echo "Installing Required Packages..."
     if [[ "$dont_install" == "false" ]]; then
-    yay -S --noconfirm python nwg-bar nwg-dock-hyprland nwg-panel nwg-menu nwg-drawer nwg-look waybar swww kitty micro nautilus pywal-git yad wlogout xfce4-taskmanager smile hyprswitch swaync ags hyprsunset rofi-wayland cliphist wl-clipboard nwg-displays hyprdim
+    yay -S --noconfirm swww pywal-git ags cliphist wl-clipboard
     fi
 
+    read -p "Bi-Shell is have two branches 1: Default 2: WindOS (1/2): " branch
+
     if [[ "$test" != "true" ]]; then
+    if [[ "$branch" == 2 ]]; then
+    git clone --branch WindOS --single-branch https://github.com/Bilal1545/BilalDot/
+    fi
+
+    if [[ "$branch" == 1 ]]; then
     git clone https://github.com/Bilal1545/BilalDot/
+    fi
 
     cd BilalDot
    fi
@@ -39,11 +41,6 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
 
     # Kaynak dizin (scriptin olduğu yer)
 SOURCE_DIR="$(dirname "$(realpath "$0")")"
-
-# Hedef dizin (~/.config)
-if [ ! -f "$HOME/.config/hypr/custom.conf" ]; then
-    touch "$HOME/.config/hypr/custom.conf"
-fi
 TARGET_DIR="$HOME/.config"
 for folder in "$SOURCE_DIR"/*/; do
     # Sadece gerçekten klasör olanları al
@@ -66,14 +63,6 @@ for folder in "$SOURCE_DIR"/*/; do
         rsync -av --progress "$folder" "$target_path" --exclude "custom.conf"
     fi
 done
-
-    cd ../../assets
-    cp dotfiles-logo.png /usr/share/bilaldot/bilaldot.png
-    echo "All files copied successfully."
-    echo "Installing Applications..."
-    cd ../
-    cd bilaldotsettings/
-    ./install.sh -d
 else
     echo "Operation canceled."
 fi

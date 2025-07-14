@@ -8,9 +8,15 @@ I recommend to install a base Hyprland system before installing the Bi-Shell Dot
 
 You can find the Hyprland Installation instructions here: https://wiki.hyprland.org/Getting-Started/Installation/
 
-After installing Hyprland, run this command in Bash, it will install automatically.
+After installing Hyprland, run this command in Bash, it will install apps and shell.
 ```shell
 bash <(curl -s https://raw.githubusercontent.com/bilal1545/bilaldot/install.sh)
+```
+
+Finally, at the beginning of the hyprland config file (~/.config/hypr/hyprland.conf) paste this:
+
+```shell
+source = ~/.config/hypr/Bi-Shell.conf
 ```
 
 > IMPORTANT: I cannot guarantee that the BilalDot Dotfiles will work everywhere. You install at your own risk.
