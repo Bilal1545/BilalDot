@@ -3,12 +3,14 @@ import Apps from "gi://AstalApps"
 import Wp from "gi://AstalWp"
 import { Variable, GLib, bind } from "astal"
 import { subprocess, exec, execAsync } from "astal/process"
-import { Astal, Gtk, Gdk } from "astal/gtk3"
+import { Astal, Gtk, Gdk, App, astalify } from "astal/gtk3"
+import { GObject } from "astal";
 import Network from "gi://AstalNetwork"
 import { type Subscribable } from "astal/binding"
 import { useRef, useEffect, useState } from "astal"
 import Mpris from "gi://AstalMpris"
 import option from "../options.js"
+import Apps from "gi://AstalApps"
 
 function Time() {
     const whole_hour = Variable<string>("").poll(1000, () =>
@@ -29,6 +31,9 @@ export default function Desktop() {
     const wifi = Network.get_default()?.wifi!
     const mpris = Mpris.get_default()
     const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
+    const apps = new Apps.Apps()
+    const text = Variable("browser")
+    const list = text(text => apps.fuzzy_query(text))
 
     return <window 
         name="desktop"
@@ -44,33 +49,6 @@ export default function Desktop() {
         }}      
     >    
         <box className="desktop">
-            <button
-                tooltipText="File Manager"
-                visible={option.desktop.filemanager}
-                valign={Gtk.Align.START}
-                onClicked={() => execAsync("hyprctl dispatch exec ~/.config/bilaldot/settings/file-manager.sh")}>
-                <box vertical>
-                    <icon icon="system-file-manager" />
-                </box>
-            </button>
-            <button
-                tooltipText="Terminal Emulator"
-                visible={option.desktop.terminal}
-                valign={Gtk.Align.START}
-                onClicked={() => execAsync("hyprctl dispatch exec ~/.config/bilaldot/settings/terminal.sh")}>
-                <box vertical>
-                    <icon icon="utilities-terminal" />
-                </box>
-            </button>
-            <button
-                tooltipText="Text Editor"
-                visible={option.desktop.texteditor}
-                valign={Gtk.Align.START}
-                onClicked={() => execAsync("hyprctl dispatch exec ~/.config/bilaldot/settings/text-editor.sh")}>
-                <box vertical>
-                    <icon icon="accessories-text-editor" />
-                </box>
-            </button>
         </box>
     </window>
 }

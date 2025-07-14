@@ -150,6 +150,7 @@ box.desktop {
         border: 0;
         padding: 10px;
         margin: 5px;
+        min-width: 50px;
         border-radius: $radius;
         &:hover {
             background: gtkalpha($fg, .2);
