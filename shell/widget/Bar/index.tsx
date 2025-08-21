@@ -165,7 +165,7 @@ function Battery() {
   )((p) => `${Math.floor(p * 100)}%`)
 
   return (
-    <button>
+    <button visible={createBinding(battery, "isPresent")}>
       <box spacing={2}>
         <image iconName={createBinding(battery, "iconName")} />
         <label label={percent} />

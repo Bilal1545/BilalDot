@@ -1,22 +1,16 @@
 # Bi-Shell Dotfiles
-> the latest version is 2.0
+> the latest version is ???
 
-An desktop shell for Hyprland and Arch Linux based distributions (optional). It has dynamic coloring, settings app, bar, app launcher and lot of more...
+An desktop shell for Hyprland and Arch Linux based distributions.
 
 ## Installation
 I recommend to install a base Hyprland system before installing the Bi-Shell Dotfiles.
 
 You can find the Hyprland Installation instructions here: https://wiki.hyprland.org/Getting-Started/Installation/
 
-After installing Hyprland, run this command in Bash, it will install apps and shell.
+After installing Hyprland, run this command in Bash, it will install dependencies and config integrations and shell.
 ```shell
-bash <(curl -s https://raw.githubusercontent.com/bilal1545/bilaldot/install.sh)
-```
-
-Finally, at the beginning of the hyprland config file (~/.config/hypr/hyprland.conf) paste this:
-
-```shell
-source = ~/.config/hypr/Bi-Shell.conf
+curl -fsSL https://raw.githubusercontent.com/Bilal1545/BilalDot/main/install.sh -o /tmp/install.sh && bash /tmp/install.sh && rm -f /tmp/install.sh
 ```
 
 > IMPORTANT: I cannot guarantee that the BilalDot Dotfiles will work everywhere. You install at your own risk.
