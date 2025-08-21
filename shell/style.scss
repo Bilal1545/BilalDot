@@ -1,0 +1,94 @@
+@use "sass:string";
+@use "sass:color";
+// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+@import "colors.scss";
+
+@function gtkalpha($c, $a) {
+  @return string.unquote("alpha(#{$c},#{$a})");
+}
+
+$fg: white;
+$bg: #171717;
+
+* {
+  outline-offset: 0;
+}
+
+popover.background contents, popover arrow {
+  background: $bg;
+}
+
+button {
+  background: transparent;
+  padding: 4px 7px;
+  &:hover {
+    background: gtkalpha($fg, .1);
+    outline: gtkalpha($fg, .15) 1px solid;
+  }
+  &:active {
+    background: gtkalpha($fg, .2);
+    outline: gtkalpha($fg, .25) 1px solid;
+  }
+  &:checked {
+    background: $primary;
+    color: $onPrimary;
+    border: gtkalpha($fg, .15) 1px solid;
+    padding: 4px 6px;
+    &:hover {
+      background: color.scale($primary, $lightness: -5%);
+    }
+    &:active {
+      background: color.scale($primary, $lightness: -10%);
+    }
+    levelbar trough block.filled {
+      background: $onPrimary;
+    }
+  }
+}
+
+button.glass {
+  background: gtkalpha($fg, .1);
+  outline: gtkalpha($fg, .15) 1px solid;
+  padding: 4px 7px;
+  &:hover {
+    background: gtkalpha($fg, .2);
+    outline: gtkalpha($fg, .25) 1px solid;
+  }
+  &:active {
+    background: gtkalpha($fg, .3);
+    outline: gtkalpha($fg, .35) 1px solid;
+  }
+}
+
+togglebutton {
+  transition: .1s;
+}
+
+levelbar trough block.filled {
+  background: $primary;
+}
+
+window.Bar {
+  background: transparent;
+  color: $fg;
+  font-weight: bold;
+
+  > box {
+    background: $bg;
+    border-radius: 10px;
+    margin: 8px;
+    padding: 3px;
+  }
+
+  button {
+    border-radius: 8px;
+    margin: 2px;
+    min-height: 0;
+  }
+}
+
+window.Sidebar {
+  background: $bg;
+  border-radius: 10px;
+  margin: 10px;
+}
