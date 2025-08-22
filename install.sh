@@ -59,18 +59,26 @@ cd ../
 cp ./bi-shell.conf ~/.config/hypr/bi-shell.conf
 sed -i "source = ~/.config/hypr/bi-shell.conf" ~/.config/hypr/hyprland.conf
 
-mkdir -p ~/matugen
+mkdir -p ~/.config/matugen
 
 # Matugen confirmation (looped)
 while true; do
     read -p "Are you using Matugen already? (Yy/Nn) (Default: N): " matugen_answer
 
     if [[ "$matugen_answer" == "y" || "$matugen_answer" == "Y" ]]; then
-        echo -e "${green}Installing dependencies...${reset}"
-        yay -S --noconfirm swww ags cliphist wl-clipboard hyprland matugen
+        cp ./bi-shell.json ~/.config/matugen/bi-shell.json
+        sed -i '$ a \
+            [templates.bishell]\
+            \ninput_path = "~/.config/matugen/bi-shell.json"\
+            \noutput_path = "~/.config/bi-shell/colors.json"' ~/.config/matugen/config.toml
         break
     elif [[ "$matugen_answer" == "n" || "$matugen_answer" == "N" || "$matugen_answer" == "" ]]; then
-        echo -e "${red}Dependency installation skipping...${reset}"
+        cp ./bi-shell.json ~/.config/matugen/bi-shell.json
+        touch ~/.config/matugen/config.toml
+        sed -i '$ a \
+            [templates.bishell]\
+            \ninput_path = "~/.config/matugen/bi-shell.json"\
+            \noutput_path = "~/.config/bi-shell/colors.json"' ~/.config/matugen/config.toml
         break
     else
         echo -e "${red}Unavailable answer. Please retry.${reset}"
