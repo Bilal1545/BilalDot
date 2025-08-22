@@ -57,7 +57,7 @@ sudo ags bundle app.ts /usr/share/bi-shell
 cd ../
 
 cp ./bi-shell.conf ~/.config/hypr/bi-shell.conf
-sed -i "source = ~/.config/hypr/bi-shell.conf" ~/.config/hypr/hyprland.conf
+sed -i '1i source = ~/.config/hypr/bi-shell.conf' ~/.config/hypr/hyprland.conf
 
 mkdir -p ~/.config/matugen
 
