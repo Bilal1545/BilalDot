@@ -87,9 +87,9 @@ done
 
 echo -e "Copying icon files..."
 rm -rf ~/.local/share/icons/BiShell
-mkdir -p ~/.local/share/icons/BiShell/scalable/apps
-cp ./assets/logo.svg ~/.local/share/icons/BiShell/scalable/apps/logo.svg
-gtk-update-icon-cache ~/.local/share/icons/BiShell
+mkdir -p ~/.local/share/icons/hicolor/scalable/apps/
+cp ./assets/logo.svg ~/.local/share/icons/hicolor/scalable/apps/bishell-logo.svg
+gtk-update-icon-cache ~/.local/share/icons/hicolor/
 
 cd ~
 rm -rf "$tmpdir"
