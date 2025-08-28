@@ -35,7 +35,7 @@ while true; do
         yay -S --noconfirm swww ags cliphist wl-clipboard hyprland matugen
         break
     elif [[ "$install_answer" == "n" || "$install_answer" == "N" ]]; then
-        echo -e "${red}Dependency installation skipping...${reset}"
+        echo -e "${red}Dependency update skipping...${reset}"
         break
     else
         echo -e "${red}Unavailable answer. Please retry.${reset}"
@@ -52,7 +52,7 @@ cd "$tmpdir"
 
 echo -e "${green}Reinstalling the shell...${reset}"
 cd ./shell/
-sudo rm -rf /usr/share/bi-shell
+sudo rm /usr/share/bi-shell
 sudo ags bundle app.ts /usr/share/bi-shell
 
 cd ../
@@ -66,4 +66,4 @@ cp ./bi-shell.json ~/.config/matugen/bi-shell.json
 cd ~
 rm -rf "$tmpdir"
 
-echo -e "${green}Update completed.${reset}"
+echo -e "${green}Update completed."
