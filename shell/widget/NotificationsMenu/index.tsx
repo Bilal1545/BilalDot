@@ -12,7 +12,7 @@ import AstalTray from "gi://AstalTray"
 import AstalMpris from "gi://AstalMpris"
 import AstalApps from "gi://AstalApps"
 import Sidebar from "./Sidebar"
-import { For, With, createBinding, createState } from "ags"
+import { For, With, createBinding } from "ags"
 import { createPoll } from "ags/time"
 import { execAsync } from "ags/process"
 
@@ -135,70 +135,6 @@ function AudioSlider() {
   )
 }
 
-function MediaPlayer() {
-  const mpris = AstalMpris.get_default()
-  const apps = new AstalApps.Apps()
-  const players = createBinding(mpris, "players")
-  return (
-    <box class={"MediaPlayer"} spacing={4} orientation={Gtk.Orientation.VERTICAL}>
-      <For each={players}>
-        {(player) => (
-          <box spacing={4} widthRequest={200}>
-            <box overflow={Gtk.Overflow.HIDDEN} css="border-radius: 8px;">
-              <image
-                pixelSize={64}
-                file={createBinding(player, "coverArt")}
-              />
-            </box>
-            <box
-              valign={Gtk.Align.CENTER}
-              orientation={Gtk.Orientation.VERTICAL}
-            >
-              <label xalign={0} label={createBinding(player, "title")} />
-              <label xalign={0} label={createBinding(player, "artist")} />
-            </box>
-            <box hexpand halign={Gtk.Align.END}>
-              <button
-                onClicked={() => player.previous()}
-                visible={createBinding(player, "canGoPrevious")}
-              >
-                <image iconName="media-seek-backward-symbolic" />
-              </button>
-              <button
-                onClicked={() => player.play_pause()}
-                visible={createBinding(player, "canControl")}
-              >
-                <box>
-                  <image
-                    iconName="media-playback-start-symbolic"
-                    visible={createBinding(
-                      player,
-                      "playbackStatus",
-                    )((s) => s === AstalMpris.PlaybackStatus.PLAYING)}
-                  />
-                  <image
-                    iconName="media-playback-pause-symbolic"
-                    visible={createBinding(
-                      player,
-                      "playbackStatus",
-                    )((s) => s !== AstalMpris.PlaybackStatus.PLAYING)}
-                  />
-                </box>
-              </button>
-              <button
-                onClicked={() => player.next()}
-                visible={createBinding(player, "canGoNext")}
-              >
-                <image iconName="media-seek-forward-symbolic" />
-              </button>
-            </box>
-          </box>
-        )}
-      </For>
-    </box>
-  )
-}
-
 function Battery() {
   const battery = AstalBattery.get_default()
   const powerprofiles = AstalPowerProfiles.get_default()
@@ -243,42 +179,27 @@ function Time({ format = "%H:%M" }) {
   )
 }
 
-function PowerProfiles() {
-  const battery = AstalBattery.get_default()
-  const powerprofiles = AstalPowerProfiles.get_default()
-  if (createBinding(battery, "isPresent").get()) {
-    return (
-      <menubutton
-        class={"glass"}
-        hexpand
-        alwaysShowArrow
-      >
-        <box halign={Gtk.Align.START} hexpand spacing={5}>
-          <image iconName={`power-profile-${createBinding(powerprofiles, "active_profile").get()}-symbolic`} />
-          <label label={createBinding(powerprofiles, "active_profile")} />
-        </box>
-        <popover>
-          <box spacing={3} orientation={Gtk.Orientation.VERTICAL}>
-            {powerprofiles.get_profiles().map(({ profile }) => (
-              <button onClicked={() => setProfile(profile)}>
-                <box spacing={3}>
-                  <image iconName={`power-profile-${profile}-symbolic`} />
-                  <label label={profile} xalign={0} />
-                </box>
-              </button>
-            ))}
-          </box>
-        </popover>
-      </menubutton>
-    )
-  }
-  
+function Workspaces() {
+    const hypr = Hyprland.get_default()
+
+    return <box vertical={vertical_control()} className="Workspaces">
+        {bind(hypr, "workspaces").as(wss => wss
+            .filter(ws => !(ws.id >= -99 && ws.id <= -2)) // filter out special workspaces
+            .sort((a, b) => a.id - b.id)
+            .map(ws => (
+                <button
+                    halign={Gtk.Align.CENTER}
+                    className={bind(hypr, "focusedWorkspace").as(fw =>
+                        ws === fw ? "focused" : "")}
+                    onClicked={() => ws.focus()}>
+                </button>
+            ))
+        )}
+    </box>
 }
 
-export default function Sidebar(gdkmonitor: Gdk.Monitor) {
-  const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
-  const network = AstalNetwork.get_default()
-  const wifi = createBinding(network, "wifi")
+export default function NotificationsMenu(gdkmonitor: Gdk.Monitor) {
+  const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor
   const battery = AstalBattery.get_default()
   const powerprofiles = AstalPowerProfiles.get_default()
   const percent = createBinding(
@@ -288,46 +209,19 @@ export default function Sidebar(gdkmonitor: Gdk.Monitor) {
   const time = createPoll("", 1000, () => {
     return GLib.DateTime.new_now_local().format(format)!
   })
-  const [ wifiReveal, setWifiReveal ] = createState(false)
-  const sorted = (arr: Array<AstalNetwork.AccessPoint>) => {
-    return arr.filter((ap) => !!ap.ssid).sort((a, b) => b.strength - a.strength)
-  }
 
-  async function connect(ap: AstalNetwork.AccessPoint) {
-    // connecting to ap is not yet supported
-    // https://github.com/Aylur/astal/pull/13
-    try {
-      await execAsync(`nmcli d wifi connect ${ap.bssid}`)
-    } catch (error) {
-      // you can implement a popup asking for password here
-      console.error(error)
-    }
-  }
-
-  const setProfile = (profile: string) => {
-    powerprofiles.set_active_profile(profile)
-  }
-
-  const settings = Gtk.Settings.get_default()
-  const [ gtkTheme, setGtkThem ] = createState(settings.gtk_application_prefer_dark_theme)
-
-  function setGtkTheme() {
-    setGtkThem(!gtkTheme.get())
-    settings.gtk_application_prefer_dark_theme = !gtkTheme.get()
-  }
-  
   return (
     <window
-      visible={false}
-      name="sidebar"
-      class="Sidebar"
-      namespace={"bi-shell-sidebar"}
-      gdkmonitor={gdkmonitor}
-      exclusivity={Astal.Exclusivity.EXCLUSIVE}
-      anchor={TOP | RIGHT}
-      application={app}
+        visible={false}
+        name="notificationsmenu"
+        class="NotificationsMenu"
+        namespace={"bi-shell-notmenu"}
+        gdkmonitor={gdkmonitor}
+        exclusivity={Astal.Exclusivity.EXCLUSIVE}
+        anchor={TOP | BOTTOM}
+        application={app}
     >
-      <box spacing={10} orientation={Gtk.Orientation.VERTICAL}>
+      <box valign={Gtk.Align.START} orientation={Gtk.Orientation.VERTICAL}>
         <box valign={Gtk.Align.CENTER} class={"top"} hexpand>
           <image iconName={"bishell-logo"} pixelSize={100} />
           <box valign={Gtk.Align.CENTER} orientation={Gtk.Orientation.VERTICAL}>
@@ -348,57 +242,6 @@ export default function Sidebar(gdkmonitor: Gdk.Monitor) {
         </box>
         <box orientation={Gtk.Orientation.VERTICAL} hexpand class={"group"}>
           <AudioSlider />
-        </box>
-        <box hexpand class={"controls"}>
-          <Gtk.FlowBox hexpand maxChildrenPerLine={2} columnSpacing={5} rowSpacing={5}>
-            <With value={wifi}>
-              {(wifi) =>
-                wifi && (
-            <menubutton
-              class={createBinding(wifi, "activeAccessPoint").as((active) =>
-                active ? "glass active" : "glass"
-              )}
-              hexpand
-              alwaysShowArrow
-            >
-              <box halign={Gtk.Align.START} hexpand spacing={5}>
-                <image iconName={createBinding(wifi, "iconName")} />
-                <label label="Wifi" />
-              </box>
-              <popover>
-                <box orientation={Gtk.Orientation.VERTICAL} spacing={3}>
-                  <For each={createBinding(wifi, "accessPoints")(sorted)}>
-                    {(ap: AstalNetwork.AccessPoint) => (
-                      <button onClicked={() => connect(ap)}>
-                        <box spacing={4}>
-                          <image iconName={createBinding(ap, "iconName")} />
-                          <label label={createBinding(ap, "ssid")} />
-                          <image
-                            iconName="object-select-symbolic"
-                            visible={createBinding(
-                              wifi,
-                              "activeAccessPoint",
-                            )((active) => active === ap)}
-                          />
-                        </box>
-                      </button>
-                    )}
-                  </For>
-                </box>
-              </popover>
-            </menubutton>
-            )}
-            </With>
-            <togglebutton hexpand class={"glass"} />
-            <PowerProfiles />
-            <togglebutton onToggled={() => setGtkTheme()} hexpand class={gtkTheme ? "glass active" : "glass"}>
-              <box spacing={5}>
-                <image iconName={gtkTheme ? "weather-clear-night-symbolic" : "weather-clear-symbolic"} />
-                <label label={gtkTheme ? "Dark" : "Light"} />
-              </box>
-            </togglebutton>
-            <togglebutton hexpand class={"glass"} />
-          </Gtk.FlowBox>
         </box>
       </box>
     </window>

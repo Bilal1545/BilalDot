@@ -11,10 +11,11 @@ import Hyprland from "gi://AstalHyprland"
 import AstalTray from "gi://AstalTray"
 import AstalMpris from "gi://AstalMpris"
 import AstalApps from "gi://AstalApps"
+import { getAppIcon } from "../misc/getAppIcon"
 import Sidebar from "./Sidebar"
 import { For, With, createBinding, createState } from "ags"
 import { createPoll } from "ags/time"
-import { execAsync } from "ags/process"
+import { execAsync, exec } from "ags/process"
 
 function Mpris() {
   const mpris = AstalMpris.get_default()
@@ -38,7 +39,8 @@ function Mpris() {
               <box spacing={4} widthRequest={200}>
                 <box overflow={Gtk.Overflow.HIDDEN} css="border-radius: 8px;">
                   <image
-                    pixelSize={64}
+                    pixelSize={256}
+                    css={"filter: blur(10px);"}
                     file={createBinding(player, "coverArt")}
                   />
                 </box>
@@ -121,16 +123,20 @@ function Tray() {
 function SidebarButton() {
   const network = AstalNetwork.get_default()
   const wifi = createBinding(network, "wifi")
+  const { defaultSpeaker: speaker } = AstalWp.get_default()!
 
   return (
     <togglebutton onToggled={() => execAsync("ags toggle sidebar")}>
-      <With value={wifi}>
-        {(wifi) =>
-          wifi && (
-      <image iconName={createBinding(wifi, "iconName")} />
-          )
-        }
-      </With>
+      <box spacing={3}>
+        <With value={wifi}>
+          {(wifi) =>
+            wifi && (
+        <image iconName={createBinding(wifi, "iconName")} />
+            )
+          }
+        </With>
+        <image iconName={createBinding(speaker, "volumeIcon")} />
+      </box>
     </togglebutton>
   )
 }
@@ -165,52 +171,117 @@ function Battery() {
   )((p) => `${Math.floor(p * 100)}%`)
 
   return (
-    <button visible={createBinding(battery, "isPresent")}>
+    <button onClicked={() => setBatteryPercentage(!batteryPercentage.get())} visible={createBinding(battery, "isPresent")}>
       <box spacing={2}>
         <image iconName={createBinding(battery, "iconName")} />
-        <label label={percent} />
+        <revealer transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT} revealChild={batteryPercentage}>
+          <label label={percent} />
+        </revealer>
         <levelbar orientation={Gtk.Orientation.HORIZONTAL} widthRequest={100} value={createBinding(battery, "percentage",)((p) => p / 100)} />
       </box>
     </button>
   )
 }
 
-function Clock({ format = "%H:%M" }) {
+function Clock({ format = "%H:%M - %A %d." }) {
   const time = createPoll("", 1000, () => {
     return GLib.DateTime.new_now_local().format(format)!
   })
 
   return (
-    <menubutton>
+    <togglebutton onToggled={() => execAsync("ags toggle notificationsmenu")}>
       <label label={time} />
-      <popover>
-        <Gtk.Calendar />
-      </popover>
-    </menubutton>
+    </togglebutton>
   )
 }
 
-function Workspaces() {
-    const hypr = Hyprland.get_default()
+function Dock() {
+  const hypr = Hyprland.get_default()
+  const apps = new AstalApps.Apps()
+  const clients = createBinding(hypr, "clients")
 
-    return <box vertical={vertical_control()} className="Workspaces">
-        {bind(hypr, "workspaces").as(wss => wss
-            .filter(ws => !(ws.id >= -99 && ws.id <= -2)) // filter out special workspaces
-            .sort((a, b) => a.id - b.id)
-            .map(ws => (
-                <button
-                    halign={Gtk.Align.CENTER}
-                    className={bind(hypr, "focusedWorkspace").as(fw =>
-                        ws === fw ? "focused" : "")}
-                    onClicked={() => ws.focus()}>
-                </button>
-            ))
+  return (
+    <box class="Dock" vexpand spacing={6}>
+      <For
+        each={clients.as(cs =>
+          cs
+            .filter(c => !c.address.startsWith("special:"))
+            .sort((a, b) => (a.workspace?.id ?? 0) - (b.workspace?.id ?? 0))
         )}
+      >
+        {(client: any) => {
+          // reactive olarak focus kontrol
+          const isFocused = createBinding(hypr, "focusedClient").as(
+            fc => fc?.address === client.address
+          )
+
+          return (
+            <button vexpand onClicked={() => client.focus()}>
+              <image iconName={getAppIcon(client)} />
+            </button>
+          )
+        }}
+      </For>
     </box>
+  )
+}
+
+
+function Workspaces() {
+  const hypr = Hyprland.get_default()
+
+  // sıralı + boşları doldurulmuş liste
+  const viewWorkspaces = createBinding(hypr, "workspaces").as(wss => {
+    const isSpecial = (id: number) => id >= -99 && id <= -2
+    const count = (ws: any) => (ws?.windows?.length ?? ws?.clients?.length ?? 0)
+
+    const filtered = wss
+      .filter(ws => !isSpecial(ws.id))
+      .sort((a, b) => a.id - b.id)
+
+    // en son DOLU workspace id'si (hiç dolu yoksa 1)
+    const lastUsed = Math.max(1, ...filtered.filter(ws => count(ws) > 0).map(ws => ws.id))
+
+    // 1..lastUsed aralığını üret; eksik olanları "virtual" boş ws olarak ekle
+    const ids = Array.from({ length: lastUsed }, (_, i) => i + 1)
+    return ids.map(id => filtered.find(ws => ws.id === id) ?? { id, windows: [], __virtual: true })
+  })
+
+  const isEmpty = (ws: any) => (ws?.windows?.length ?? ws?.clients?.length ?? 0) === 0
+
+  return (
+    <togglebutton onToggled={() => execAsync("ags toggle overview")} class="Workspaces">
+      <box>
+        <For each={viewWorkspaces}>
+          {(ws: any) => (
+            <button
+              halign={Gtk.Align.CENTER}
+              class={createBinding(hypr, "focusedWorkspace").as(fw => {
+                const cls: string[] = []
+                if (fw?.id === ws.id) cls.push("focused")
+                if (isEmpty(ws)) cls.push("empty")
+                return cls.join(" ")
+              })}
+              valign={Gtk.Align.CENTER}
+              onClicked={() => {
+                if (typeof ws.focus === "function") ws.focus()
+                else if (typeof hypr.dispatch === "function") hypr.dispatch("workspace", String(ws.id))
+                else if (typeof hypr.focusWorkspace === "function") hypr.focusWorkspace(ws.id)
+              }}>
+            </button>
+          )}
+        </For>
+      </box>
+    </togglebutton>
+  )
 }
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
+
+  const out = exec("cat /etc/os-release")
+  const match = out.match(/^LOGO="([^"]+)"/m)
+
   return (
     <window
       visible
@@ -224,14 +295,19 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
     >
       <centerbox>
         <box $type="start">
-          <Clock />
+          <button onClicked={() => execAsync("ags toggle launcher")}><image iconName={match[1]} /></button>
           <Mpris />
+          <Workspaces />
+          <Dock />
+        </box>
+        <box $type="center">
+          <Clock />
         </box>
         <box $type="end">
           <Tray />
           <SidebarButton />
-          <AudioOutput />
           <Battery />
+          <button onClicked={() => execAsync("ags toggle power")}><image css={"color: #F96793;"} iconName={"system-shutdown-symbolic"} /></button>
         </box>
       </centerbox>
     </window>
